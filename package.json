@@ -1,0 +1,32 @@
+{
+  "name": "khaos",
+  "repository": "git://github.com/segmentio/khaos.git",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "A super-simple way to generate directory or file templates.",
+  "keywords": [
+    "template",
+    "generator",
+    "directory",
+    "folder",
+    "scaffold",
+    "boilerplate"
+  ],
+  "main": "lib/index.js",
+  "bin": {
+    "khaos": "bin/khaos"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "commander": "~2.1.0",
+    "minstache": "~1.1.0",
+    "sync-prompt": "~0.2.2",
+    "fs-readdir-recursive": "0.0.1",
+    "fs-extra": "~0.8.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1"
+  }
+}

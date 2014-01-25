@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+var exists = require('fs').existsSync;
+var Khaos = require('..');
+var program = require('commander');
+var resolve = require('path').resolve;
+
+/**
+ * Usage.
+ */
+
+program
+  .version(require('../package.json').version)
+  .usage('<template> <name>')
+  .parse(process.argv);
+
+/**
+ * Help.
+ */
+
+if (!program.args.length) return program.help();
+
+/**
+ * Settings.
+ */
+
+var template = program.args[0];
+var name = program.args[1];
+var schema;
+
+if (!template) throw new Error('template required');
+if (!name) throw new Error('name required');
+
+template = resolve(process.env.HOME, '.khaos', template);
+schema = resolve(template, 'khaos.json');
+
+if (!exists(template)) throw new Error('template not found');
+if (!exists(schema)) throw new Error('template has no khaos.json');
+
+schema = require(schema);
+
+/**
+ * Generate.
+ */
+
+var khaos = new Khaos(template);
+for (var key in schema) khaos.prompt(key);
+khaos.generate(name);
