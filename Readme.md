@@ -8,6 +8,7 @@
   
     ~/.khaos/
       component/
+        khaos.json
         component.json
         index.js
         index.css
@@ -19,4 +20,4 @@
   
     $ khaos component <name>
     
-  Which will create a new folder named `<name>`.
+  Which will create a new folder named `<name>`. It will first read `khaos.json` for prompt you for each of the keys in there, filling in your answers into every template file.
