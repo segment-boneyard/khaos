@@ -44,5 +44,5 @@ schema = require(schema);
  */
 
 var khaos = new Khaos(template);
-for (var key in schema) khaos.prompt(key);
+for (var key in schema) khaos.ask(key);
 khaos.generate(name);
