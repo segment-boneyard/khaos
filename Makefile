@@ -1,6 +1,4 @@
 
-mocha = ./node_modules/.bin/mocha
-
 clean:
 	@rm -rf node_modules
 
@@ -9,6 +7,6 @@ node_modules: package.json
 	@touch package.json
 
 test: node_modules
-	@$(mocha) --reporter spec --slow 400
+	@./node_modules/.bin/mocha --reporter spec
 
 .PHONY: clean test

@@ -27,6 +27,8 @@
     "cli-prompt": "~0.3.2"
   },
   "devDependencies": {
-    "mocha": "~1.15.1"
+    "mocha": "~1.17.1",
+    "rimraf": "~2.2.6",
+    "fs-readdir-recursive": "0.0.1"
   }
 }
