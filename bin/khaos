@@ -26,13 +26,10 @@ if (!program.args.length) return program.help();
 
 var template = program.args[0];
 var name = program.args[1];
-var schema;
 
 if (!template) throw new Error('template required');
 if (!name) throw new Error('name required');
-
 template = resolve(process.env.HOME, '.khaos', template);
-
 if (!exists(template)) throw new Error('template not found');
 
 /**
