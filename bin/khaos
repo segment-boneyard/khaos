@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var exists = require('fs').existsSync;
-var Khaos = require('..');
+var khaos = require('..');
 var program = require('commander');
 var resolve = require('path').resolve;
 
@@ -29,12 +29,13 @@ var name = program.args[1];
 
 if (!template) throw new Error('template required');
 if (!name) throw new Error('name required');
+
 template = resolve(process.env.HOME, '.khaos', template);
+
 if (!exists(template)) throw new Error('template not found');
 
 /**
  * Generate.
  */
 
-var khaos = new Khaos(template);
-khaos.generate(name);
+khaos(template, resolve(name));
