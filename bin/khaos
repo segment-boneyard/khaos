@@ -32,12 +32,8 @@ if (!template) throw new Error('template required');
 if (!name) throw new Error('name required');
 
 template = resolve(process.env.HOME, '.khaos', template);
-schema = resolve(template, 'khaos.json');
 
 if (!exists(template)) throw new Error('template not found');
-if (!exists(schema)) throw new Error('template has no khaos.json');
-
-schema = require(schema);
 
 /**
  * Generate.
