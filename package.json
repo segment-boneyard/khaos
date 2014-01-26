@@ -24,7 +24,9 @@
     "minstache": "~1.1.0",
     "fs-readdir-recursive": "0.0.1",
     "fs-extra": "~0.8.1",
-    "max-component": "~1.0.0"
+    "max-component": "~1.0.0",
+    "pad-component": "0.0.1",
+    "cli-prompt": "~0.3.2"
   },
   "devDependencies": {
     "mocha": "~1.15.1"
