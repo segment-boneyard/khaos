@@ -43,4 +43,4 @@
               
         Generated "ware".
 
-  And then the `index.css` file wouldn't be generated.
+  And the `index.css` file wouldn't be generated.
