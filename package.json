@@ -26,11 +26,8 @@
     "minstache": "~1.1.0",
     "pad-component": "0.0.1",
     "rimraf": "~2.2.6",
-    "tarball-extract": "0.0.3",
     "uid": "0.0.2",
-    "zlib": "~1.0.5",
-    "wget": "0.0.1",
-    "tar": "~0.1.19"
+    "download-github-repo": "0.0.1"
   },
   "devDependencies": {
     "fs-readdir-recursive": "0.0.1",
