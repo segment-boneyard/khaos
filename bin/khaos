@@ -1,9 +1,16 @@
 #!/usr/bin/env node
 
-var exists = require('fs').existsSync;
+var download = require('download-github-repo');
+var fs = require('fs');
 var khaos = require('..');
+var path = require('path');
 var program = require('commander');
-var resolve = require('path').resolve;
+var rimraf = require('rimraf');
+var uid = require('uid');
+
+var resolve = path.resolve;
+var rm = rimraf.sync;
+var exists = fs.existsSync;
 
 /**
  * Usage.
@@ -19,6 +26,8 @@ program
  */
 
 if (!program.args.length) return program.help();
+if (!program.args[0]) throw new Error('template required');
+if (!program.args[1]) throw new Error('name required');
 
 /**
  * Settings.
@@ -26,16 +35,32 @@ if (!program.args.length) return program.help();
 
 var template = program.args[0];
 var name = program.args[1];
+var from = resolve(process.env.HOME, '.khaos', template);
+var to = resolve(name);
 
-if (!template) throw new Error('template required');
-if (!name) throw new Error('name required');
-
-template = resolve(process.env.HOME, '.khaos', template);
-
-if (!exists(template)) throw new Error('template not found');
+if (exists(to)) throw new Error('"' + name + '" already exists');
 
 /**
  * Generate.
  */
 
-khaos(template, resolve(name));
+// local
+if (exists(from)) {
+  khaos(from, to);
+}
+
+// remote
+else if (template.indexOf('/')) {
+  var tmp = '/tmp/khaos-' + uid();
+  download(template, tmp, function(err){
+    if (err) throw err;
+    khaos(tmp, to, function(){
+      rm(tmp);
+    });
+  });
+}
+
+// not found
+else {
+  throw new Error('template not found');
+}
