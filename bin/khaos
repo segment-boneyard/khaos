@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var colors = require('colors');
 var download = require('download-github-repo');
 var fs = require('fs');
 var khaos = require('..');
@@ -22,12 +23,21 @@ program
   .parse(process.argv);
 
 /**
+ * Padding.
+ */
+
+console.log();
+process.on('exit', function(){
+  console.log();
+});
+
+/**
  * Help.
  */
 
 if (!program.args.length) return program.help();
-if (!program.args[0]) throw new Error('template required');
-if (!program.args[1]) throw new Error('name required');
+if (!program.args[0]) fatal('template required');
+if (!program.args[1]) fatal('name required');
 
 /**
  * Settings.
@@ -38,7 +48,7 @@ var name = program.args[1];
 var from = resolve(process.env.HOME, '.khaos', template);
 var to = resolve(name);
 
-if (exists(to)) throw new Error('"' + name + '" already exists');
+if (exists(to)) fatal('"' + name + '" already exists');
 
 /**
  * Generate.
@@ -62,5 +72,16 @@ else if (template.indexOf('/')) {
 
 // not found
 else {
-  throw new Error('template not found');
+  fatal('template not found');
+}
+
+/**
+ * Log an error `message` to the console and exit.
+ *
+ * @param {String} message
+ */
+
+function fatal(message){
+  console.log('    error:'.red, message);
+  process.exit(1);
 }
