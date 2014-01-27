@@ -1,9 +1,18 @@
 #!/usr/bin/env node
 
-var exists = require('fs').existsSync;
+var fs = require('fs');
 var khaos = require('..');
+var path = require('path');
 var program = require('commander');
-var resolve = require('path').resolve;
+var rimraf = require('rimraf');
+var tar = require('tar');
+var uid = require('uid');
+var wget = require('wget');
+var zlib = require('zlib');
+
+var resolve = path.resolve;
+var rm = rimraf.sync;
+var exists = fs.existsSync;
 
 /**
  * Usage.
@@ -19,6 +28,8 @@ program
  */
 
 if (!program.args.length) return program.help();
+if (!program.args[0]) throw new Error('template required');
+if (!program.args[1]) throw new Error('name required');
 
 /**
  * Settings.
@@ -26,16 +37,61 @@ if (!program.args.length) return program.help();
 
 var template = program.args[0];
 var name = program.args[1];
+var from = resolve(process.env.HOME, '.khaos', template);
+var to = resolve(name);
 
-if (!template) throw new Error('template required');
-if (!name) throw new Error('name required');
-
-template = resolve(process.env.HOME, '.khaos', template);
-
-if (!exists(template)) throw new Error('template not found');
+if (exists(to)) throw new Error('"' + name + '" already exists');
 
 /**
  * Generate.
  */
 
-khaos(template, resolve(name));
+// local
+if (exists(from)) {
+  khaos(from, to);
+}
+
+// remote
+else if (template.indexOf('/')) {
+  var tmp = '/tmp/khaos-' + uid();
+  github(template, tmp, function(err){
+    if (err) throw err;
+    khaos(tmp, to, function(){
+      rm(tmp);
+    });
+  });
+}
+
+// not found
+else {
+  throw new Error('template not found');
+}
+
+/**
+ * Download GitHub `repo` to `dest`.
+ *
+ * @param {String} repo
+ * @param {String} dest
+ * @param {Function} fn
+ */
+
+function github(repo, dest, fn){
+  var url = 'https://codeload.github.com/' + repo + '/legacy.tar.gz/master';
+  var file = dest + '.tar.gz';
+  var dl = wget.download(url, dest + '.tar.gz');
+
+  dl.on('error', function(err){
+    fn(err);
+  });
+
+  dl.on('end', function(file){
+    fs.createReadStream(file)
+      .pipe(zlib.createGunzip())
+      .pipe(tar.Extract({ path: dest, strip: 1 }))
+      .on('error', function(err){ fn(err); })
+      .on('end', function(){
+        rm(file);
+        fn();
+      });
+  });
+}
