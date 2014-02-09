@@ -1,3 +1,3 @@
 # {{title}}
 
-{{#show}}{{description}}{{/show}}
+{% if show %}{{description}}{% endif %}
