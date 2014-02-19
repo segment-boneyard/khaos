@@ -1,6 +1,9 @@
+
 # Khaos
 
   A super-simple way to generate directory or file templates.
+
+  Thank you so much to [Sorella](https://github.com/robotlolita) for letting us use the `khaos` name on npm!
 
 ## Example
 
