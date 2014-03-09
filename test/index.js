@@ -1,67 +1,66 @@
 
 var assert = require('assert');
-var read = require('fs').readFileSync;
-var dir = require('fs-readdir-recursive');
+var equal = require('assert-dir-equal');
 var rm = require('rimraf').sync;
-var khaos = require('..');
+var Khaos = require('..');
 
 describe('khaos', function(){
-
   beforeEach(function(){
     rm('test/tmp');
   });
 
-  it('should fill in files', function(){
-    test('basic', 'basic');
+  it('should fill in files', function(done){
+    test('basic', ['basic'], done);
   });
 
-  it('should file in multiple variables', function(){
-    test('multiple', 'title', 'description');
+  it('should file in multiple variables', function(done){
+    test('multiple', ['title', 'description'], done);
   });
 
-  it('should fill in nested files', function(){
-    test('nested', 'nested');
+  it('should fill in nested files', function(done){
+    test('nested', ['nested'], done);
   });
 
-  it('should fill in file names', function(){
-    test('file-names', 'file-names');
+  it('should fill in file names', function(done){
+    test('file-names', ['file-names'], done);
   });
 
-  it('should fill in folder names', function(){
-    test('folder-names', 'folder-names');
+  it('should fill in folder names', function(done){
+    test('folder-names', ['folder-names'], done);
   });
 
-  it('should handle conditionals', function(){
-    test('conditionals', 'n', 'title', 'description');
+  it('should handle conditionals', function(done){
+    test('conditionals', ['title', 'n', 'description'], done);
   });
 
-  it('should handle conditional files', function(){
-    test('conditional-files', 'y');
+  it('should handle conditional files', function(done){
+    test('conditional-files', ['y'], done);
   });
 
-  it('should handle conditional folders', function(){
-    test('conditional-folders', 'y');
+  it('should handle conditional folders', function(done){
+    test('conditional-folders', ['y'], done);
   });
-
 });
 
 /**
  * Test convenience.
  *
  * @param {String} fixture
- * @param {Strings} answers...
+ * @param {Array} answers
+ * @param {Function} done
  */
 
-function test(fixture){
-  var answers = [].slice.call(arguments, 1);
-  khaos('test/fixtures/' + fixture, 'test/tmp');
-  answers.forEach(answer);
-  var files = dir('test/fixtures/' + fixture + '-out');
-  files.forEach(function(file){
-    var tmp = read('test/tmp/' + file, 'utf8');
-    var out = read('test/fixtures/' + fixture + '-out/' + file, 'utf8');
-    assert.equal(tmp, out);
-  });
+function test(fixture, answers, done){
+  Khaos('test/fixtures/' + fixture, 'test/tmp')
+    .run(function(err){
+      if (err) return done(err);
+      equal('test/tmp', 'test/fixtures/' + fixture + '-out');
+      done();
+    });
+
+  setTimeout(function(){
+    answers.forEach(answer);
+  }, 20);
 }
 
 /**

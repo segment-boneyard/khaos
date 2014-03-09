@@ -3,7 +3,7 @@
 var colors = require('colors');
 var download = require('download-github-repo');
 var fs = require('fs');
-var khaos = require('..');
+var Khaos = require('..');
 var path = require('path');
 var program = require('commander');
 var rimraf = require('rimraf');
@@ -56,7 +56,7 @@ if (exists(to)) fatal('"' + name + '" already exists');
 
 // local
 if (exists(from)) {
-  khaos(from, to);
+  Khaos(from, to).run(fatal);
 }
 
 // remote
@@ -64,7 +64,8 @@ else if (template.indexOf('/')) {
   var tmp = '/tmp/khaos-' + uid();
   download(template, tmp, function(err){
     if (err) throw err;
-    khaos(tmp, to, function(){
+    Khaos(tmp, to).run(function(err){
+      fatal(err);
       rm(tmp);
     });
   });
@@ -82,6 +83,7 @@ else {
  */
 
 function fatal(message){
+  if (!message) return;
   console.log('    error:'.red, message);
   process.exit(1);
 }
