@@ -40,6 +40,18 @@ describe('khaos', function(){
   it('should handle conditional folders', function(done){
     test('conditional-folders', ['y'], done);
   });
+
+  it('should register case helpers', function(done){
+    test('case', ['case'], done);
+  });
+
+  it('should register a default helper', function(done){
+    test('default', [''], done);
+  });
+
+  it('should register a date helper', function(done){
+    test('date', [], done);
+  });
 });
 
 /**
