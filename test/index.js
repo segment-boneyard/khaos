@@ -63,10 +63,10 @@ describe('khaos', function(){
  */
 
 function test(fixture, answers, done){
-  Khaos('test/fixtures/' + fixture, 'test/tmp')
+  Khaos('test/fixtures/' + fixture + '/in', 'test/tmp')
     .run(function(err){
       if (err) return done(err);
-      equal('test/tmp', 'test/fixtures/' + fixture + '-out');
+      equal('test/tmp', 'test/fixtures/' + fixture + '/out');
       done();
     });
 
