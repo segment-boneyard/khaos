@@ -1,4 +1,8 @@
 
+0.3.1 - March 10, 2013
+----------------------
+* add `.npmignore`
+
 0.3.0 - March 10, 2013
 ----------------------
 * refactor to use Metalsmith
