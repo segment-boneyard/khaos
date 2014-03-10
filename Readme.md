@@ -19,7 +19,7 @@
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  ...and voilà! Your new node.js project directory is made.
+  ...and voilà! Your new node.js project directory is made including a `package.json`, `Readme.md`, `Makefile` and everything.
 
 ## Local Usage
 
@@ -32,7 +32,7 @@
 
     $ khaos node my-new-project
 
-  ...and boom! Project created.
+  ...fill out a few fields and your new project directory is created with all of the template files filled in.
 
 ## How does it work?
 
