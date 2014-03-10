@@ -1,17 +1,13 @@
 #!/usr/bin/env node
 
-var colors = require('colors');
+var chalk = require('chalk');
 var download = require('download-github-repo');
-var fs = require('fs');
+var exists = require('fs').existsSync;
 var Khaos = require('..');
-var path = require('path');
+var resolve = require('path').resolve;
 var program = require('commander');
-var rimraf = require('rimraf');
+var rm = require('rimraf').sync;
 var uid = require('uid');
-
-var resolve = path.resolve;
-var rm = rimraf.sync;
-var exists = fs.existsSync;
 
 /**
  * Usage.
@@ -84,6 +80,6 @@ else {
 
 function fatal(message){
   if (!message) return;
-  console.log('    error:'.red, message);
+  console.log(chalk.red('    error:'), message);
   process.exit(1);
 }
