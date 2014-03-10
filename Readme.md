@@ -100,7 +100,7 @@
 
 #### #use(plugin)
   
-  Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called with the same format that a regular Metalsmith plugin would be. And all of the prompted answers are available as global metadata. 
+  Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called just like a regular Metalsmith plugin would be, and all of the prompted answers are available as global metadata.
 
 ## Thanks!
 
