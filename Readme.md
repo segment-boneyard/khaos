@@ -82,9 +82,9 @@
 
   To give you an idea for what's possible, check out a few examples:
 
-  - [A template for node projects.](/segmentio/khaos-node) Pretty basic.
-  - [A template for component projects.](/segmentio/khaos-component) Featuring conditional blocks and conditional files!
-  - [A CLI that uses the Javascript API internally.](/logo/cli/tree/master/bin/logo-create) Featuring custom plugins.
+  - [A template for node projects.](https://github.com/segmentio/khaos-node) Pretty basic.
+  - [A template for component projects.](https://github.com/segmentio/khaos-component) Featuring conditional blocks and conditional files!
+  - [A CLI that uses the Javascript API internally.](https://github.com/logo/cli/blob/master/bin/logo-create) Featuring custom plugins.
 
 ## Javascript API
 
