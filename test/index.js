@@ -1,12 +1,20 @@
 
 var assert = require('assert');
 var equal = require('assert-dir-equal');
+var exists = require('fs').existsSync;
 var rm = require('rimraf').sync;
 var Khaos = require('..');
 
 describe('khaos', function(){
   beforeEach(function(){
     rm('test/tmp');
+  });
+
+  it('should error out', function(done){
+    test('error', [''], function(err){
+      assert(err);
+      done();
+    });
   });
 
   it('should fill in files', function(done){
