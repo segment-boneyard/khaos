@@ -58,7 +58,7 @@
 }
 ```
 
-  Khaos is smart enough to know that that placeholder is a boolean:
+  Khaos is smart enough to know that the `tests` placeholder is a boolean:
 
                 name: ware
                owner: segmentio
