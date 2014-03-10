@@ -9,7 +9,7 @@
 
 ## Usage
 
-  The easiest way to use Khaos is to create a new project from a template on GitHub, for example using the [segmentio/khaos-node]() template...
+  The quickest way to get started using Khaos is to create a new project from a template on GitHub, for example using the [segmentio/khaos-node]() template...
 
     $ khaos segmentio/khaos-node my-new-project
 
@@ -19,16 +19,16 @@
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  ...and voilà! Your new directory is made.
+  ...and voilà! Your new node.js project directory is made.
 
 ## Local Usage
 
-  Khaos will also look for local templates in the `~/.khaos` directory. Here's an example using the same template as above, but locally...
+  Khaos can also lookup local templates at `~/.khaos`. Here's the same example from above, but locally...
 
     $ mkdir ~/.khaos
     $ git clone git://github.com/segmentio/khaos-node.git ~/.khaos/node
 
-  That clones Segment.io's node template as simply `node`, so then you can...
+  That clones Segment.io's node.js template as simply `node`, so then you can...
 
     $ khaos node my-new-project
 
@@ -36,7 +36,7 @@
 
 ## How does it work?
 
-  Khaos templates are just plain old directories where any file or filename can have handlebars placeholders. And whenever you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
+  Khaos templates are just plain old directories where any file or filename can have **handlebars placeholders**. When you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
 
   For example maybe you have a `package.json` in your template...
 
@@ -55,34 +55,32 @@
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  And you can use handlebars-style `if/else` blocks too, so say you wanted to add an optional entry for testing...
+  And you can use handlebars-style `if/else` blocks too, so say you wanted to add an optional entry for private modules...
 
 ```js
 {
   "name": "{{ name }}",
+  {{#private}}
+  "private": true,
+  {{/private}}
   "repository": "{{ owner }}/{{ name }}",
   "description": "{{ description }}",
-  {{#tests}}
-  "devDependencies": {
-    "mocha": "1.x"
-  },
-  {{/tests}}
   "dependencies": {}
 }
 ```
 
-  Khaos is smart enough to know that the `tests` placeholder is a boolean:
+  Khaos is smart enough to know that the `private` placeholder is a boolean:
 
                 name: ware
+             private: (y/n) y
                owner: segmentio
          description: Easily create your own middleware layer.
-               tests: (y/n) y
 
-  What's cool about all this is it makes creating new templates incredibly easy to do. Just copy one of your existing projects and replace the current values with placeholders! So now you can automate a lot more things...
+  What's cool about all this is it makes creating new templates incredibly easy. Just copy an existing project and replace the filled-in values with placeholders! So now you can automate a lot more things...
 
 ## Examples
 
-  To give you an idea for what's possible, check out a few existing templates:
+  To give you an idea for what's possible, check out a few examples:
 
   - [A template for node projects.](/segmentio/khaos-node) Pretty basic.
   - [A template for component projects.](/segmentio/khaos-component) Featuring conditional blocks and conditional files!
@@ -90,7 +88,7 @@
 
 ## Javascript API
 
-  You can use Khaos straight from node in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
+  In addition to using the simple CLI to create new projects, you can use Khaos straight from node.js in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
 
 ### new Khaos(src, dest)
 
@@ -104,9 +102,9 @@
   
   Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called with the same format that a regular Metalsmith plugin would be. And all of the prompted answers are available as global metadata. 
 
-## Thanks
+## Thanks!
 
-  _Thank you so much to [Sorella](https://github.com/robotlolita) for letting us use the `khaos` name on npm!__
+  _Thank you so much to [Sorella](https://github.com/robotlolita) for letting us use the `khaos` name on npm!_
 
 ## License
 
