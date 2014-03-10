@@ -15,6 +15,10 @@
 
   That will prompt you to fill in some placeholders...
 
+                name: ware
+               owner: segmentio
+         description: Easily create your own middleware layer.
+
   ...and voilà! Your new directory is made.
 
 ## How does it work?
