@@ -21,6 +21,19 @@
 
   ...and voilà! Your new directory is made.
 
+## Local Usage
+
+  Khaos will also look for local templates in the `~/.khaos` directory. Here's an example using the same template as above, but locally...
+
+    $ mkdir ~/.khaos
+    $ git clone git://github.com/segmentio/khaos-node.git ~/.khaos/node
+
+  That clones Segment.io's node template as simply `node`, so then you can...
+
+    $ khaos node my-new-project
+
+  ...and boom! Project created.
+
 ## How does it work?
 
   Khaos templates are just plain old directories where any file or filename can have handlebars placeholders. And whenever you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
@@ -65,7 +78,7 @@
          description: Easily create your own middleware layer.
                tests: (y/n) y
 
-  What's cool about all this is that it means creating new templates is incredibly easy to do. You just copy one of your existing projects and replace the current values with placeholders! So now you can automate a lot more things...
+  What's cool about all this is it makes creating new templates incredibly easy to do. Just copy one of your existing projects and replace the current values with placeholders! So now you can automate a lot more things...
 
 ## Examples
 
@@ -74,19 +87,6 @@
   - [A template for node projects.](/segmentio/khaos-node) Pretty basic.
   - [A template for component projects.](/segmentio/khaos-component) Featuring conditional blocks and conditional files!
   - [A CLI that uses the Javascript API internally.](/logo/cli/tree/master/bin/logo-create) Featuring custom plugins.
-
-## Local Templates
-
-  Khaos will also look for local templates in the `~/.khaos` directory. Here's an example using the same template as above, but locally...
-
-    $ mkdir ~/.khaos
-    $ git clone git://github.com/segmentio/khaos-node.git ~/.khaos/node
-
-  That clones Segment.io's node template as simply `node`, so then you can...
-
-    $ khaos node my-new-project
-
-  ...and boom! Project created.
 
 ## Javascript API
 
