@@ -23,9 +23,9 @@
 
 ## How does it work?
 
-  Khaos templates are just plain old directories where any file or filename can have handlebars placeholders. And whenever you create a new project, Khaos will prompt you to fill in a value for each placeholder.
+  Khaos templates are just plain old directories where any file or filename can have handlebars placeholders. And whenever you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
 
-  Khaos works by taking a template directory and scanning it for template placeholders. For example maybe you have a `package.json` in your template...
+  For example maybe you have a `package.json` in your template...
 
 ```json
 {
