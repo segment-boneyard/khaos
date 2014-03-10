@@ -27,7 +27,7 @@
 
   For example maybe you have a `package.json` in your template...
 
-```json
+```js
 {
   "name": "{{ name }}",
   "repository": "{{ owner }}/{{ name }}",
@@ -44,7 +44,7 @@
 
   And you can use handlebars-style `if/else` blocks too, so say you wanted to add an optional entry for testing...
 
-```json
+```js
 {
   "name": "{{ name }}",
   "repository": "{{ owner }}/{{ name }}",
@@ -55,6 +55,7 @@
   },
   {{/tests}}
   "dependencies": {}
+}
 ```
 
   Khaos is smart enough to know that that placeholder is a boolean:
