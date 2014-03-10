@@ -1,4 +1,23 @@
 
+0.3.0 - March 10, 2013
+----------------------
+* refactor to use Metalsmith
+* refactor to pull out `segmentio/prompt-for`
+* revert to using handlebars
+* add handlebars `date` helper
+* add handlebars `case` helpers
+* add handlebars `default` helper
+
 0.2.0 - February 19, 2013
 -------------------------
+* change to using swig for templates
+
+0.1.0 - January 26, 2013
+------------------------
+* add github support
+* add nicer logging
+* remove need for `khaos.json` by parsing schema
+
+0.0.1 - January 24, 2013
+------------------------
 :sparkles:
