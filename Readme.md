@@ -38,7 +38,7 @@
 
   Khaos templates are just plain old directories where any file or filename can have **handlebars placeholders**. When you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
 
-  For example maybe you have a `package.json` in your template...
+  For example, say you have a `package.json` in your template...
 
 ```js
 {
@@ -49,13 +49,13 @@
 }
 ```
 
-  Khaos reads that and knows it will need to prompt you for a `name`, `owner` and `description` when creating a new project from your template, like so...
+  Khaos sees that and knows to prompt you for a `name`, `owner` and `description` when generating the template, like so...
 
                 name: ware
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  And you can use handlebars-style `if/else` blocks too, so say you wanted to add an optional entry for private modules...
+  You can use handlebars conditional blocks too, so if you wanted to add an optional private flag...
 
 ```js
 {
@@ -69,14 +69,14 @@
 }
 ```
 
-  Khaos is smart enough to know that the `private` placeholder is a boolean:
+  ...and Khaos is smart enough to know that the `private` placeholder is a boolean when it prompts you...
 
                 name: ware
              private: (y/n) y
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  What's cool about all this is it makes creating new templates incredibly easy. Just copy an existing project and replace the filled-in values with placeholders! So now you can automate a lot more things...
+  What's cool about all this is it makes creating new templates incredibly easy. Just copy an existing project and replace the filled-in values with placeholders... now you can automate more things!
 
 ## Examples
 
@@ -90,15 +90,15 @@
 
   In addition to using the simple CLI to create new projects, you can use Khaos straight from node.js in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
 
-### new Khaos(src, dest)
+#### new Khaos(src, dest)
 
   Create a new Khaos instance with a `src` template directory, and that will output to a `dest` directory.
 
-### #run(fn)
+#### #run(callback)
   
-  Run the prompting and scaffolding process and then callback `fn(err)`.
+  Run the prompting and scaffolding process and then `callback(err)`.
 
-### #use(plugin)
+#### #use(plugin)
   
   Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called with the same format that a regular Metalsmith plugin would be. And all of the prompted answers are available as global metadata. 
 
