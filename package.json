@@ -22,7 +22,7 @@
     "metalsmith": "^0.3.0",
     "metalsmith-templates": "^0.2.0",
     "metalsmith-build-date": "^0.1.0",
-    "metalsmith-prompt": "^0.0.2",
+    "metalsmith-prompt": "^0.0.4",
     "extend": "^1.2.1",
     "case": "git://github.com/ianstormtaylor/case#1.0.0",
     "moment": "^2.5.1",
