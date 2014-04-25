@@ -2,8 +2,11 @@
 
 var chalk = require('chalk');
 var download = require('download-github-repo');
+var exec = require('child_process').exec;
 var exists = require('fs').existsSync;
+var format = require('util').format;
 var join = require('path').join;
+var mkdir = require('mkdirp').sync;
 var Khaos = require('..');
 var resolve = require('path').resolve;
 var program = require('commander');
@@ -16,6 +19,7 @@ var uid = require('uid');
 
 program
   .version(require('../package.json').version)
+  .option('-s, --save', 'save a <template> from github as <name> locally')
   .usage('<template> <name>')
   .parse(process.argv);
 
@@ -38,31 +42,56 @@ if (program.args.length < 2) return program.help();
  * Settings.
  */
 
+var home = resolve(process.env.HOME, '.khaos');
 var template = program.args[0];
 var name = program.args[1];
-var from = resolve(process.env.HOME, '.khaos', template);
+var save = program.save;
+var from = join(home, template);
 var to = resolve(name);
 
-if (exists(to)) fatal('"' + name + '" already exists.');
+if (exists(to)) fatal('"%s" already exists.', name);
+
+/**
+ * Save a template from GitHub.
+ */
+
+if (save) {
+  if (!~template.indexOf('/')) notFound(template);
+  var dest = join(home, name);
+  var cmd = format('git clone git@github.com:%s.git %s', template, dest);
+
+  mkdir(home);
+  exec(cmd, function(err, stdout){
+    if (err) fatal(err);
+    log('Saved the "%s" template as "%s".', template, name);
+    log('Run `khaos %s my-project` to get started.', name);
+  });
+
+  return;
+}
 
 /**
  * Generate from a locally-stored template.
  */
 
-if (exists(from)) return generate(from, to, fatal);
+if (exists(from)) {
+  return generate(from, to, function(err){
+    if (err) fatal(err);
+  });
+}
 
 /**
  * Generate from a remote template on GitHub.
  */
 
-if (template.indexOf('/')) {
+if (~template.indexOf('/')) {
   var tmp = '/tmp/khaos-' + uid();
 
   download(template, tmp, function(err){
-    fatal(err);
+    if (err) fatal(err);
     generate(tmp, to, function(err){
       rm(tmp);
-      fatal(err);
+      if (err) fatal(err);
     });
   });
 
@@ -73,7 +102,7 @@ if (template.indexOf('/')) {
  * Template not found.
  */
 
-fatal('Could not find a template named "' + template + '".');
+notFound(template);
 
 /**
  * Generate a khaos template given a `src` and `dest`.
@@ -96,13 +125,34 @@ function generate(src, dest, fn){
 }
 
 /**
+ * Log a `message` to the console.
+ *
+ * @param {String} message
+ */
+
+function log(){
+  var msg = format.apply(format, arguments);
+  console.log(chalk.white('   khaos ·'), msg);
+}
+
+/**
  * Log an error `message` to the console and exit.
  *
  * @param {String} message
  */
 
-function fatal(message){
-  if (!message) return;
-  console.error(chalk.red('    error:'), message);
+function fatal(){
+  var msg = format.apply(format, arguments);
+  console.error(chalk.red('   error ·'), msg);
   process.exit(1);
+}
+
+/**
+ * Log a not found error message for a `template`.
+ *
+ * @param {String} template
+ */
+
+function notFound(template){
+  fatal('Could not find a template named "%s".', template);
 }
