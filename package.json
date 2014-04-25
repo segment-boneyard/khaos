@@ -1,7 +1,7 @@
 {
   "name": "khaos",
   "repository": "git://github.com/segmentio/khaos.git",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "license": "MIT",
   "description": "A super-simple way to generate directory or file templates.",
   "keywords": [
