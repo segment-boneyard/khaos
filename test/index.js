@@ -60,6 +60,10 @@ describe('khaos', function(){
   it('should register a date helper', function(done){
     test('date', [], done);
   });
+
+  it('should handle single-file templates', function(done){
+    test('file', ['file'], done);
+  });
 });
 
 /**
