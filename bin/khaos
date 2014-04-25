@@ -3,6 +3,7 @@
 var chalk = require('chalk');
 var download = require('download-github-repo');
 var exists = require('fs').existsSync;
+var join = require('path').join;
 var Khaos = require('..');
 var resolve = require('path').resolve;
 var program = require('commander');
@@ -31,9 +32,7 @@ process.on('exit', function(){
  * Help.
  */
 
-if (!program.args.length) return program.help();
-if (!program.args[0]) fatal('template required');
-if (!program.args[1]) fatal('name required');
+if (program.args.length < 2) return program.help();
 
 /**
  * Settings.
@@ -44,32 +43,56 @@ var name = program.args[1];
 var from = resolve(process.env.HOME, '.khaos', template);
 var to = resolve(name);
 
-if (exists(to)) fatal('"' + name + '" already exists');
+if (exists(to)) fatal('"' + name + '" already exists.');
 
 /**
- * Generate.
+ * Generate from a locally-stored template.
  */
 
-// local
-if (exists(from)) {
-  Khaos(from, to).run(fatal);
-}
+if (exists(from)) return generate(from, to, fatal);
 
-// remote
-else if (template.indexOf('/')) {
+/**
+ * Generate from a remote template on GitHub.
+ */
+
+if (template.indexOf('/')) {
   var tmp = '/tmp/khaos-' + uid();
+
   download(template, tmp, function(err){
-    if (err) throw err;
-    Khaos(tmp, to).run(function(err){
-      fatal(err);
+    fatal(err);
+    generate(tmp, to, function(err){
       rm(tmp);
+      fatal(err);
     });
   });
+
+  return;
 }
 
-// not found
-else {
-  fatal('template not found');
+/**
+ * Template not found.
+ */
+
+fatal('Could not find a template named "' + template + '".');
+
+/**
+ * Generate a khaos template given a `src` and `dest`.
+ *
+ * @param {String} src
+ * @param {String} dest
+ * @param {Function} fn
+ */
+
+function generate(src, dest, fn){
+  try {
+    var config = require(join(src, 'khaos.json'));
+  } catch (e) {
+    var config = {};
+  }
+
+  var template = config.template || 'template';
+  var khaos = new Khaos(join(src, template), dest);
+  khaos.run(fn);
 }
 
 /**
@@ -80,6 +103,6 @@ else {
 
 function fatal(message){
   if (!message) return;
-  console.log(chalk.red('    error:'), message);
+  console.error(chalk.red('    error:'), message);
   process.exit(1);
 }
