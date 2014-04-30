@@ -1,4 +1,8 @@
 
+0.5.2 - April 29, 2014
+----------------------
+* actually upgrade `metalsmith-prompt` to `0.0.6`
+
 0.5.1 - April 29, 2014
 ----------------------
 * upgrade `metalsmith-prompt` to `0.0.6`

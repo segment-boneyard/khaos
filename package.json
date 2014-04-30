@@ -1,7 +1,7 @@
 {
   "name": "khaos",
   "repository": "git://github.com/segmentio/khaos.git",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "license": "MIT",
   "description": "A super-simple way to generate directory or file templates.",
   "keywords": [
@@ -24,7 +24,7 @@
     "handlebars": "^2.0.0-alpha.2",
     "metalsmith": "^0.6.1",
     "metalsmith-build-date": "^0.1.0",
-    "metalsmith-prompt": "^0.0.5",
+    "metalsmith-prompt": "^0.0.6",
     "metalsmith-templates": "^0.2.0",
     "mkdirp": "^0.4.0",
     "moment": "^2.5.1",
