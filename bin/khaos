@@ -114,13 +114,14 @@ notFound(template);
 
 function generate(src, dest, fn){
   try {
-    var config = require(join(src, 'khaos.json'));
+    var path = join(src, 'khaos.json');
+    var options = exists(path) ? require(path) : {};
   } catch (e) {
-    var config = {};
+    fatal('Invalid JSON in ' + path);
   }
 
-  var template = config.template || 'template';
-  var khaos = new Khaos(join(src, template), dest);
+  var template = options.template || 'template';
+  var khaos = new Khaos(join(src, template), dest, options);
   khaos.run(fn);
 }
 
@@ -143,7 +144,7 @@ function log(){
 
 function fatal(){
   var msg = format.apply(format, arguments);
-  console.error(chalk.red('   error ·'), msg);
+  console.error(chalk.red('   khaos ·'), msg);
   process.exit(1);
 }
 

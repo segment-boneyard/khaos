@@ -1,4 +1,11 @@
 
+0.5.0 - April 29, 2014
+----------------------
+* add `basename` metadata
+* upgrade `metalsmith-prompt` to `0.0.5`
+* add `schema` option to `khaos.json`
+* fix `pad` option to `metalsmith-prompt`
+
 0.4.0 - April 24, 2014
 ----------------------
 * add single-file template support
