@@ -77,6 +77,8 @@ if (save) {
 if (exists(from)) {
   return generate(from, to, function(err){
     if (err) fatal(err);
+    console.log();
+    log('Successfully generated "%s".', name);
   });
 }
 
@@ -92,6 +94,8 @@ if (~template.indexOf('/')) {
     generate(tmp, to, function(err){
       rm(tmp);
       if (err) fatal(err);
+      console.log();
+      log('Successfully generated "%s".', name);
     });
   });
 
