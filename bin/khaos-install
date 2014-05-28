@@ -42,7 +42,7 @@ var repo = program.args[0];
 var name = program.args[1];
 var dir = program.directory;
 var dest = join(dir, name);
-if (!~repo.indexOf('/')) logger.fatal('Couldn\'t find "%s" on GitHub.', repo);
+if (!~repo.indexOf('/')) logger.fatal('Couldn\'t find a GitHub repository named "%s".', repo);
 mkdir(dir);
 
 /**
