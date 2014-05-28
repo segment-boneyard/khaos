@@ -1,0 +1,54 @@
+#!/usr/bin/env node
+
+var exec = require('child_process').exec;
+var exists = require('fs').existsSync;
+var format = require('util').format;
+var join = require('path').join;
+var program = require('commander');
+var logger = require('../lib/logger');
+
+/**
+ * Usage.
+ */
+
+program
+  .option('-d, --directory <dir>', 'the directory to look for templates in', join(process.env.HOME, '.khaos'))
+  .usage('<template>');
+
+/**
+ * Help.
+ */
+
+program.on('--help', function(){
+  console.log('  Examples:');
+  console.log();
+  console.log('    # update a local template named "node"');
+  console.log('    $ khaos update node');
+  console.log();
+});
+
+/**
+ * Help.
+ */
+
+program.parse(process.argv);
+if (program.args.length < 1) return program.help();
+
+/**
+ * Settings.
+ */
+
+var template = program.args[0];
+var dir = program.directory;
+var path = join(dir, template);
+if (!exists(path)) logger.fatal('Couldn\'t find a local template named "%s".', template);
+
+/**
+ * Git pull inside the local template's directory.
+ */
+
+var cmd = format('cd %s && git pull', path);
+exec(cmd, function(err, stdout, stderr){
+  if (err) logger.fatal(err);
+  logger.success('Updated the local "%s" template.', template);
+});
