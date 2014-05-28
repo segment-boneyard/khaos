@@ -1,0 +1,112 @@
+#!/usr/bin/env node
+
+var download = require('download-github-repo');
+var exists = require('fs').existsSync;
+var join = require('path').join;
+var logger = require('../lib/logger');
+var Khaos = require('..');
+var resolve = require('path').resolve;
+var program = require('commander');
+var rm = require('rimraf').sync;
+var uid = require('uid');
+
+/**
+ * Usage.
+ */
+
+program
+  .option('-d, --directory <dir>', 'the directory to look for templates in', join(process.env.HOME, '.khaos'))
+  .usage('<template> <name>');
+
+/**
+ * Help.
+ */
+
+program.on('--help', function(){
+  console.log('  Examples:');
+  console.log();
+  console.log('    # create a new project from a local template');
+  console.log('    $ khaos create node my-project-name');
+  console.log();
+  console.log('    # create a new project straight from a github template');
+  console.log('    $ khaos create segmentio/khaos-node my-project-name');
+  console.log();
+});
+
+/**
+ * Help.
+ */
+
+program.parse(process.argv);
+if (program.args.length < 2) return program.help();
+
+/**
+ * Settings.
+ */
+
+var template = program.args[0];
+var name = program.args[1];
+var dir = program.directory;
+var from = join(dir, template);
+var to = resolve(name);
+if (exists(to)) logger.fatal('"%s" already exists.', name);
+
+/**
+ * Local template.
+ */
+
+if (exists(from)) {
+  generate(from, to, function(err){
+    if (err) logger.fatal(err);
+    console.log();
+    logger.success('Generated "%s".', name);
+  });
+}
+
+/**
+ * Remote template.
+ */
+
+else if (~template.indexOf('/')) {
+  var tmp = '/tmp/khaos-' + uid();
+
+  download(template, tmp, function(err){
+    if (err) logger.fatal(err);
+    generate(tmp, to, function(err){
+      rm(tmp);
+      if (err) logger.fatal(err);
+      logger.success('Generated "%s".', name);
+    });
+  });
+}
+
+/**
+ * No template.
+ */
+
+else {
+  logger.fatal('Couldn\'t find a template named "%s".', template);
+}
+
+/**
+ * Generate a khaos template given a `src` and `dest`.
+ *
+ * @param {String} src
+ * @param {String} dest
+ * @param {Function} fn
+ */
+
+function generate(src, dest, fn){
+  var options;
+
+  try {
+    var path = join(src, 'khaos.json');
+    options = exists(path) ? require(path) : {};
+  } catch (e) {
+    logger.fatal('Invalid JSON in ' + path);
+  }
+
+  var template = options.template || 'template';
+  var khaos = new Khaos(join(src, template), dest, options);
+  khaos.run(fn);
+}

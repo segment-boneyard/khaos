@@ -24,7 +24,7 @@
     "handlebars": "^2.0.0-alpha.2",
     "metalsmith": "^0.6.1",
     "metalsmith-build-date": "^0.1.0",
-    "metalsmith-prompt": "^0.0.6",
+    "metalsmith-prompt": "^0.0.7",
     "metalsmith-templates": "^0.2.0",
     "mkdirp": "^0.4.0",
     "moment": "^2.5.1",
@@ -34,7 +34,8 @@
   },
   "devDependencies": {
     "mocha": "~1.17.1",
-    "assert-dir-equal": "^1.0.0"
+    "assert-dir-equal": "^1.0.0",
+    "once": "^1.3.0"
   },
   "bin": {
     "khaos": "bin/khaos"
