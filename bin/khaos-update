@@ -35,6 +35,15 @@ program.parse(process.argv);
 if (program.args.length < 1) return program.help();
 
 /**
+ * Padding.
+ */
+
+console.log();
+process.on('exit', function(){
+  console.log();
+});
+
+/**
  * Settings.
  */
 
