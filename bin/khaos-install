@@ -13,7 +13,7 @@ var program = require('commander');
 
 program
   .option('-d, --directory <dir>', 'the directory to look for templates in', join(process.env.HOME, '.khaos'))
-  .usage('<repository> <name>');
+  .usage('<repository> [<name>]');
 
 /**
  * Help.
@@ -32,7 +32,7 @@ program.on('--help', function(){
  */
 
 program.parse(process.argv);
-if (program.args.length < 2) return program.help();
+if (!program.args.length) return program.help();
 
 /**
  * Padding.
@@ -48,10 +48,12 @@ process.on('exit', function(){
  */
 
 var repo = program.args[0];
-var name = program.args[1];
+if (!~repo.indexOf('/')) logger.fatal('Couldn\'t find a GitHub repository named "%s".', repo);
+
+var name = program.args[1] || alias(repo);
 var dir = program.directory;
 var dest = join(dir, name);
-if (!~repo.indexOf('/')) logger.fatal('Couldn\'t find a GitHub repository named "%s".', repo);
+
 mkdir(dir);
 
 /**
@@ -65,3 +67,16 @@ exec(cmd, function(err, stdout){
   logger.log('Saved "%s" as "%s"!', repo, name);
   logger.success('Run `khaos create %s <project>` to get started.', name);
 });
+
+/**
+ * Generate an alias from a `repo` string.
+ *
+ * @param {String} repo
+ * @return {String}
+ */
+
+function alias(repo){
+  return repo
+    .split('/')[1]
+    .replace(/^khaos-/, '');
+}
