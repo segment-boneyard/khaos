@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+
+var exists = require('fs').existsSync;
+var join = require('path').join;
+var logger = require('../lib/logger');
+var program = require('commander');
+var readdir = require('fs').readdirSync;
+
+/**
+ * Usage.
+ */
+
+program
+  .option('-d, --directory <dir>', 'the directory to look for templates in', join(process.env.HOME, '.khaos'))
+  .usage('khaos list');
+
+/**
+ * Help.
+ */
+
+program.on('--help', function(){
+  console.log('  Examples:');
+  console.log();
+  console.log('    # list all of the locally installed templates');
+  console.log('    $ khaos list');
+  console.log();
+});
+
+/**
+ * Parse.
+ */
+
+program.parse(process.argv);
+
+/**
+ * Padding.
+ */
+
+console.log();
+process.on('exit', function(){
+  console.log();
+});
+
+/**
+ * Settings.
+ */
+
+var dir = program.directory;
+if (!exists(dir)) logger.fatal('The template directory does not exist.');
+
+/**
+ * Print the locally installed Khaos templates.
+ */
+
+readdir(dir).forEach(function(name){
+  if ('.' == name.charAt(0)) return;
+  logger.log(name);
+});
