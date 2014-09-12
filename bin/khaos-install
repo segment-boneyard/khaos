@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var exec = require('child_process').exec;
+var exists = require('fs').existsSync;
 var format = require('util').format;
 var join = require('path').join;
 var logger = require('../lib/logger');
@@ -52,9 +53,11 @@ if (!~repo.indexOf('/')) logger.fatal('Couldn\'t find a GitHub repository named 
 
 var name = program.args[1] || alias(repo);
 var dir = program.directory;
-var dest = join(dir, name);
-
 mkdir(dir);
+
+var dest = join(dir, name);
+if (exists(dest)) logger.fatal('A template named "%s" already exists. Try `khaos update %s`, or choose a new alias.', name, name);
+
 
 /**
  * Clone the GitHub repository to the templates directory.
@@ -62,7 +65,6 @@ mkdir(dir);
 
 var cmd = format('git clone git@github.com:%s.git %s', repo, dest);
 exec(cmd, function(err, stdout){
-  if (err && ~err.message.indexOf('already exists')) logger.fatal('A "%s" template is already installed. Try `khaos update %s` instead?', name, name);
   if (err) logger.fatal(err);
   logger.log('Saved "%s" as "%s"!', repo, name);
   logger.success('Run `khaos create %s <project>` to get started.', name);
