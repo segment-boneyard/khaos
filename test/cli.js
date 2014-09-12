@@ -20,7 +20,7 @@ describe('cli', function(){
       khaos('install', '', function(err, stdout, stderr){
         if (err) return done(err);
         assert(stdout);
-        assert(~stdout.indexOf('Usage: khaos-install <repository> <name>'));
+        assert(~stdout.indexOf('Usage: khaos-install <repository> [<name>]'));
         done();
       });
     });
@@ -52,10 +52,20 @@ describe('cli', function(){
         done();
       });
     });
+
+    it('should infer an alias name based on the repository', function(done){
+      khaos('install', 'segmentio/khaos-node', function(err){
+        if (err) return done(err);
+        assert(exists('test/tmp/node'));
+        assert(exists('test/tmp/node/template'));
+        assert(exists('test/tmp/node/template/Readme.md'));
+        done();
+      });
+    });
   });
 
   describe('update', function(){
-    it('should show help without the right args', function(done){
+    it('should show help without any args', function(done){
       khaos('update', '', function(err, stdout, stderr){
         if (err) return done(err);
         assert(stdout);
