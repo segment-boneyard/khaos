@@ -1,7 +1,7 @@
 
 # Khaos
 
-  A super-simple way to scaffold new projects.
+A super-simple way to scaffold new projects.
 
 ## Installation
 
@@ -9,36 +9,35 @@
 
 ## Usage
 
-  The quickest way to get started using Khaos is to create a new project from a template on GitHub, for example using the [segmentio/khaos-node]() template...
+The quickest way to get started using Khaos is to create a new project from a template on GitHub, for example using the [segmentio/khaos-node](https://github.com/segmentio/khaos-node) template...
 
-    $ khaos segmentio/khaos-node my-new-project
+    $ khaos create segmentio/khaos-node my-new-project
 
-  That will prompt you to fill in some placeholders...
+That will prompt you to fill in some placeholders...
 
                 name: ware
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  ...and voilà! Your new node.js project directory is made including a `package.json`, `Readme.md`, `Makefile` and everything.
+...and voilà! Your new node.js project directory is made including a `package.json`, `Readme.md`, `Makefile` and everything.
 
 ## Local Usage
 
-  Khaos can also lookup local templates at `~/.khaos`. Here's the same example from above, but locally...
+Khaos can also use local templates at `~/.khaos`, and there's a simple command for download GitHub repositories there. Here's the same example from above, but locally...
 
-    $ mkdir ~/.khaos
-    $ git clone git://github.com/segmentio/khaos-node.git ~/.khaos/node
+    $ khaos install segmentio/khaos-node node
 
-  That clones Segment.io's node.js template as simply `node`, so then you can...
+That installs Segment.io's node.js Khaos template and aliases it as `node`, so then from now on you can easily...
 
-    $ khaos node my-new-project
+    $ khaos create node my-new-project
 
-  ...fill out a few fields and your new project directory is created with all of the template files filled in.
+...and fill out a few fields and your new project directory is created with all of the template files filled in for you!
 
 ## How does it work?
 
-  Khaos templates are just plain old directories where any file or filename can have **handlebars placeholders**. When you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
+Khaos templates are just plain old directories where any file or filename can have **handlebars placeholders**. When you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
 
-  For example, say you have a `package.json` in your template...
+For example, say you have a `package.json` in your template...
 
 ```js
 {
@@ -49,13 +48,13 @@
 }
 ```
 
-  Khaos sees that and knows to prompt you for a `name`, `owner` and `description` when generating the template, like so...
+Khaos sees that and knows to prompt you for a `name`, `owner` and `description` when generating the template, like so...
 
                 name: ware
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  You can use handlebars conditional blocks too, so if you wanted to add an optional private flag...
+You can use handlebars conditional blocks too, so if you wanted to add an optional private flag...
 
 ```js
 {
@@ -69,18 +68,18 @@
 }
 ```
 
-  ...and Khaos is smart enough to know that the `private` placeholder is a boolean when it prompts you...
+...and Khaos is smart enough to know that `private` is a boolean when it prompts you...
 
                 name: ware
              private: (y/n) y
                owner: segmentio
          description: Easily create your own middleware layer.
 
-  What's cool about all this is it makes creating new templates incredibly easy. Just copy an existing project and replace the filled-in values with placeholders... now you can automate more things!
+What's cool about all this is it makes creating new templates incredibly easy. Just copy an existing project and replace the filled-in values with placeholders... now you can automate more things!
 
 ## Examples
 
-  To give you an idea for what's possible, check out a few examples:
+To give you an idea for what's possible, check out a few examples:
 
   - [A template for node projects.](https://github.com/segmentio/khaos-node) Pretty basic.
   - [A template for component projects.](https://github.com/segmentio/khaos-component) Featuring conditional blocks and conditional files!
@@ -88,29 +87,27 @@
 
 ## Javascript API
 
-  In addition to using the simple CLI to create new projects, you can use Khaos straight from node.js in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
+In addition to using the simple CLI to create new projects, you can use Khaos straight from node.js in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
 
 #### new Khaos(src, dest)
 
-  Create a new Khaos instance with a `src` template directory, and that will output to a `dest` directory.
+Create a new Khaos instance with a `src` template directory, and that will output to a `dest` directory.
 
 #### #run(callback)
   
-  Run the prompting and scaffolding process and then `callback(err)`.
+Run the prompting and scaffolding process and then `callback(err)`.
 
 #### #use(plugin)
   
-  Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called just like a regular Metalsmith plugin would be, and all of the prompted answers are available as global metadata.
+Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called just like a regular Metalsmith plugin would be, and all of the prompted answers are available as global metadata.
 
 ## Thanks!
 
-  _Thank you so much to [Sorella](https://github.com/robotlolita) for letting us use the `khaos` name on npm!_
+_Thank you so much to [Sorella](https://github.com/robotlolita) for letting us use the `khaos` name on npm!_
 
-## License
+## License (MIT)
 
-The MIT License (MIT)
-
-Copyright &copy; 2013, Segment.io \<friends@segment.io\>
+Copyright &copy; 2013, Segment.io &lt;friends@segment.io&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
