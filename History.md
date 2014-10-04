@@ -1,13 +1,15 @@
 
-0.5.3 / 2014-09-10
-==================
+0.5.4 - October 4, 2014
+-----------------------
+* upgrade `metalsmith-prompt` to `0.0.8` for list support
 
- * fix: ignore files correctly
- * added list command
- * make alias optional, fixes #44
- * cleanup
- * fix tests
- * split out cli commands
+0.5.3 - September 10, 2014
+--------------------------
+* added `list` command to the cli
+* split out cli commands
+* make alias optional for `install`
+* fix file ignoring logic
+* fix tests
 
 0.5.2 - April 29, 2014
 ----------------------
