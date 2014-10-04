@@ -1,0 +1,22 @@
+{
+  "name": "{{name}}",
+  "version": "0.0.0",
+  "repo": "{{owner}}/{{name}}",
+  "description": "{{description}}",
+  "keywords": [],
+  "license": "MIT",{{#scripts}}
+  "main": "lib/index.js",
+  "scripts": [
+    "lib/index.js"
+  ],{{/scripts}}{{#styles}}
+  "styles": [
+    "lib/index.css"
+  ],{{/styles}}{{#templates}}
+  "templates": [
+    "lib/index.html"
+  ],{{/templates}}
+  "dependencies": {},
+  "development": {
+    "component/assert": "*"
+  }
+}

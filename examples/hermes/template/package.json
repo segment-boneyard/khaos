@@ -1,0 +1,19 @@
+{
+  "name": "{{basename}}",
+  "description": "{{description}}",
+  "repository": "git://github.com/{{repository}}.git",
+  "version": "0.0.0",{{#mit}}
+  "license": "MIT",{{/mit}}
+  "main": "lib/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "1.x",
+    "hermes": "0.x"
+  },
+  "keywords": [
+    "hermes",
+    "plugin",
+    "chat",
+    "hubot"
+  ]
+}
