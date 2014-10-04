@@ -3,10 +3,11 @@
 var download = require('download-github-repo');
 var exists = require('fs').existsSync;
 var join = require('path').join;
-var logger = require('../lib/logger');
 var Khaos = require('..');
-var resolve = require('path').resolve;
+var logger = require('../lib/logger');
+var metadata = require('read-metadata');
 var program = require('commander');
+var resolve = require('path').resolve;
 var rm = require('rimraf').sync;
 var uid = require('uid');
 
@@ -110,7 +111,7 @@ function generate(src, dest, fn){
 
   try {
     var path = join(src, 'khaos.json');
-    options = exists(path) ? require(path) : {};
+    options = exists(path) ? metadata(path) : {};
   } catch (e) {
     logger.fatal('Invalid JSON in ' + path);
   }
