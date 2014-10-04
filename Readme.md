@@ -27,11 +27,11 @@ Khaos can also use local templates at `~/.khaos`, and there's a simple command f
 
     $ khaos install segmentio/khaos-node node
 
-That installs Segment.io's node.js Khaos template and aliases it as `node`, so then from now on you can easily...
+That installs Segment's node template and aliases it as `node`, so then from now on you can easily...
 
     $ khaos create node my-new-project
 
-...and fill out a few fields and your new project directory is created with all of the template files filled in for you!
+...and fill out a few fields and your new project directory is created!
 
 ## How does it work?
 
@@ -99,7 +99,7 @@ Run the prompting and scaffolding process and then `callback(err)`.
 
 #### #use(plugin)
   
-Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin will be called just like a regular Metalsmith plugin would be, and all of the prompted answers are available as global metadata.
+Use a custom `plugin` function. Khaos uses [Metalsmith](http://metalsmith.io) internally, so the plugin is just a regular Metalsmith plugin, and all of the prompted answers are available as global metadata.
 
 ## Thanks!
 
