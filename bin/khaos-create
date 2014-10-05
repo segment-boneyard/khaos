@@ -12,6 +12,16 @@ var rm = require('rimraf').sync;
 var uid = require('uid');
 
 /**
+ * Supported metadata file names.
+ */
+
+var metadatas = [
+  'khaos.json',
+  'khaos.yaml',
+  'khaos.yml'
+];
+
+/**
  * Usage.
  */
 
@@ -107,16 +117,31 @@ else {
  */
 
 function generate(src, dest, fn){
-  var options;
-
-  try {
-    var path = join(src, 'khaos.json');
-    options = exists(path) ? metadata(path) : {};
-  } catch (e) {
-    logger.fatal('Invalid JSON in ' + path);
-  }
-
-  var template = options.template || 'template';
-  var khaos = new Khaos(join(src, template), dest, options);
+  var opts = options(src);
+  var template = join(src, opts.template || 'template');
+  var khaos = new Khaos(template, dest, opts);
   khaos.run(fn);
 }
+
+/**
+ * Read metadata options from the `khaos` file in `dir`.
+ *
+ * @param {String} dir
+ * @return {Object}
+ */
+
+function options(dir){
+  var file = metadatas
+    .map(function(file){ return join(dir, file); });
+    .filter(exists)
+    [0];
+
+  if (!file) return {};
+
+  try {
+    return metadata(file);
+  } catch (e) {
+    logger.fatal('Invalid metadata in ' + file);
+  }
+}
+
