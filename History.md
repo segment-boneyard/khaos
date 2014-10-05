@@ -1,4 +1,12 @@
 
+0.6.0 - October 5, 2014
+-----------------------
+* add ability to read from yaml metadata
+* add examples
+* remove `#build` alias for `#run`
+* remove `ware` dependency
+* remove requirement for the source template to exist on initialize
+
 0.5.4 - October 4, 2014
 -----------------------
 * upgrade `metalsmith-prompt` to `0.0.8` for list support
