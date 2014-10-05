@@ -29,8 +29,7 @@
     "moment": "^2.5.1",
     "read-metadata": "^1.0.0",
     "rimraf": "^2.2.6",
-    "uid": "~0.0.2",
-    "ware": "~0.3.0"
+    "uid": "~0.0.2"
   },
   "devDependencies": {
     "mocha": "^1.17.1",

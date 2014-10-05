@@ -5,64 +5,78 @@ var exists = require('fs').existsSync;
 var rm = require('rimraf').sync;
 var Khaos = require('..');
 
-describe('khaos', function(){
+describe('Khaos', function(){
   beforeEach(function(){
     rm('test/tmp');
   });
 
-  it('should error out', function(done){
-    test('error', [''], function(err){
-      assert(err);
-      done();
+  it('should require a source directory', function(){
+    assert.throws(function(){
+      new Khaos();
+    }, /You must provide a source template\./);
+  });
+
+  it('should require a destination directory', function(){
+    assert.throws(function(){
+      new Khaos('src');
+    }, /You must provide a destination\./);
+  });
+
+  describe('#run', function(){
+    it('should error out', function(done){
+      test('error', [''], function(err){
+        assert(err);
+        done();
+      });
     });
-  });
 
-  it('should fill in files', function(done){
-    test('basic', ['basic'], done);
-  });
+    it('should fill in files', function(done){
+      test('basic', ['basic'], done);
+    });
 
-  it('should file in multiple variables', function(done){
-    test('multiple', ['title', 'description'], done);
-  });
+    it('should fill in multiple variables', function(done){
+      test('multiple', ['title', 'description'], done);
+    });
 
-  it('should fill in nested files', function(done){
-    test('nested', ['nested'], done);
-  });
+    it('should fill in nested files', function(done){
+      test('nested', ['nested'], done);
+    });
 
-  it('should fill in file names', function(done){
-    test('file-names', ['file-names'], done);
-  });
+    it('should fill in file names', function(done){
+      test('file-names', ['file-names'], done);
+    });
 
-  it('should fill in folder names', function(done){
-    test('folder-names', ['folder-names'], done);
-  });
+    it('should fill in folder names', function(done){
+      test('folder-names', ['folder-names'], done);
+    });
 
-  it('should handle conditionals', function(done){
-    test('conditionals', ['title', 'n', 'description'], done);
-  });
+    it('should handle conditionals', function(done){
+      test('conditionals', ['title', 'n', 'description'], done);
+    });
 
-  it('should handle conditional files', function(done){
-    test('conditional-files', ['y'], done);
-  });
+    it('should handle conditional files', function(done){
+      test('conditional-files', ['y'], done);
+    });
 
-  it('should handle conditional folders', function(done){
-    test('conditional-folders', ['y'], done);
-  });
+    it('should handle conditional folders', function(done){
+      test('conditional-folders', ['y'], done);
+    });
 
-  it('should register case helpers', function(done){
-    test('case', ['case'], done);
-  });
+    it('should register case helpers', function(done){
+      test('case', ['case'], done);
+    });
 
-  it('should register a default helper', function(done){
-    test('default', [''], done);
-  });
+    it('should register a default helper', function(done){
+      test('default', [''], done);
+    });
 
-  it('should register a date helper', function(done){
-    test('date', [], done);
-  });
+    it('should register a date helper', function(done){
+      test('date', [], done);
+    });
 
-  it('should handle single-file templates', function(done){
-    test('file', ['file'], done);
+    it('should handle single-file templates', function(done){
+      test('file', ['file'], done);
+    });
   });
 });
 
