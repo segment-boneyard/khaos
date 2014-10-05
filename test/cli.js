@@ -10,14 +10,14 @@ var rm = require('rimraf').sync;
  * Tests.
  */
 
-describe('cli', function(){
+describe('CLI', function(){
   beforeEach(function(){
     rm('test/tmp');
   });
 
   describe('install', function(){
     it('should show help without any args', function(done){
-      khaos('install', '', function(err, stdout, stderr){
+      khaos('install', function(err, stdout, stderr){
         if (err) return done(err);
         assert(stdout);
         assert(~stdout.indexOf('Usage: khaos-install <repository> [<name>]'));
@@ -26,7 +26,7 @@ describe('cli', function(){
     });
 
     it('should fail without a / in the repository', function(done){
-      khaos('install', 'segmentio node', function(err, stdout, stderr){
+      khaos('install segmentio node', function(err, stdout, stderr){
         assert(err);
         assert(stderr);
         assert(~stderr.indexOf('Couldn\'t find a GitHub repository named "segmentio".'));
@@ -35,7 +35,7 @@ describe('cli', function(){
     });
 
     it('should fail on a non-existant repository', function(done){
-      khaos('install', 'segmentio/noooooooo test', function(err, stdout, stderr){
+      khaos('install segmentio/noooooooo test', function(err, stdout, stderr){
         assert(err);
         assert(stderr);
         assert(~stderr.indexOf('Repository not found.'));
@@ -44,7 +44,7 @@ describe('cli', function(){
     });
 
     it('should install a new template', function(done){
-      khaos('install', 'segmentio/khaos-node node', function(err){
+      khaos('install segmentio/khaos-node node', function(err){
         if (err) return done(err);
         assert(exists('test/tmp/node'));
         assert(exists('test/tmp/node/template'));
@@ -54,7 +54,7 @@ describe('cli', function(){
     });
 
     it('should infer an alias name based on the repository', function(done){
-      khaos('install', 'segmentio/khaos-node', function(err){
+      khaos('install segmentio/khaos-node', function(err){
         if (err) return done(err);
         assert(exists('test/tmp/node'));
         assert(exists('test/tmp/node/template'));
@@ -66,7 +66,7 @@ describe('cli', function(){
 
   describe('update', function(){
     it('should show help without any args', function(done){
-      khaos('update', '', function(err, stdout, stderr){
+      khaos('update', function(err, stdout, stderr){
         if (err) return done(err);
         assert(stdout);
         assert(~stdout.indexOf('Usage: khaos-update <template>'));
@@ -75,7 +75,7 @@ describe('cli', function(){
     });
 
     it('should fail with a non-existant template', function(done){
-      khaos('update', 'non-existant', function(err, stdout, stderr){
+      khaos('update non-existant', function(err, stdout, stderr){
         assert(err);
         assert(stderr);
         assert(~stderr.indexOf('Couldn\'t find a local template named "non-existant".'));
@@ -92,16 +92,13 @@ describe('cli', function(){
 });
 
 /**
- * Test a khaos `cmd` with `args`.
+ * Execute a khaos `cmd`.
  *
  * @param {String} cmd
- * @param {String} args
  * @param {Function} fn
  */
 
-function khaos(cmd, args, fn){
-  args = args + ' --directory test/tmp';
-  cmd = 'bin/khaos ' + cmd + ' ' + args;
+function khaos(cmd, fn){
   fn = once(fn);
-  exec(cmd, fn);
+  exec('bin/khaos ' + cmd + ' --directory test/tmp', fn);
 }

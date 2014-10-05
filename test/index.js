@@ -24,58 +24,58 @@ describe('Khaos', function(){
 
   describe('#run', function(){
     it('should error out', function(done){
-      test('error', [''], function(err){
+      run('error', [''], function(err){
         assert(err);
         done();
       });
     });
 
     it('should fill in files', function(done){
-      test('basic', ['basic'], done);
+      run('basic', ['basic'], done);
     });
 
     it('should fill in multiple variables', function(done){
-      test('multiple', ['title', 'description'], done);
+      run('multiple', ['title', 'description'], done);
     });
 
     it('should fill in nested files', function(done){
-      test('nested', ['nested'], done);
+      run('nested', ['nested'], done);
     });
 
     it('should fill in file names', function(done){
-      test('file-names', ['file-names'], done);
+      run('file-names', ['file-names'], done);
     });
 
     it('should fill in folder names', function(done){
-      test('folder-names', ['folder-names'], done);
+      run('folder-names', ['folder-names'], done);
     });
 
     it('should handle conditionals', function(done){
-      test('conditionals', ['title', 'n', 'description'], done);
+      run('conditionals', ['title', 'n', 'description'], done);
     });
 
     it('should handle conditional files', function(done){
-      test('conditional-files', ['y'], done);
+      run('conditional-files', ['y'], done);
     });
 
     it('should handle conditional folders', function(done){
-      test('conditional-folders', ['y'], done);
+      run('conditional-folders', ['y'], done);
     });
 
     it('should register case helpers', function(done){
-      test('case', ['case'], done);
+      run('case', ['case'], done);
     });
 
     it('should register a default helper', function(done){
-      test('default', [''], done);
+      run('default', [''], done);
     });
 
     it('should register a date helper', function(done){
-      test('date', [], done);
+      run('date', [], done);
     });
 
     it('should handle single-file templates', function(done){
-      test('file', ['file'], done);
+      run('file', ['file'], done);
     });
   });
 });
@@ -88,7 +88,7 @@ describe('Khaos', function(){
  * @param {Function} done
  */
 
-function test(fixture, answers, done){
+function run(fixture, answers, done){
   Khaos('test/fixtures/' + fixture + '/in', 'test/tmp')
     .run(function(err){
       if (err) return done(err);
