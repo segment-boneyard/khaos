@@ -27,7 +27,7 @@ var metadatas = [
 
 program
   .option('-d, --directory <dir>', 'the directory to look for templates in', join(process.env.HOME, '.khaos'))
-  .usage('<template> <name>');
+  .usage('<template> <project>');
 
 /**
  * Help.

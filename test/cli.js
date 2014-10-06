@@ -15,7 +15,7 @@ describe('CLI', function(){
     rm('test/tmp');
   });
 
-  describe('install', function(){
+  describe('install <repository> [<name>]', function(){
     it('should show help without any args', function(done){
       khaos('install', function(err, stdout, stderr){
         if (err) return done(err);
@@ -64,16 +64,7 @@ describe('CLI', function(){
     });
   });
 
-  describe('update', function(){
-    it('should show help without any args', function(done){
-      khaos('update', function(err, stdout, stderr){
-        if (err) return done(err);
-        assert(stdout);
-        assert(~stdout.indexOf('Usage: khaos-update <template>'));
-        done();
-      });
-    });
-
+  describe('update [<template>]', function(){
     it('should fail with a non-existant template', function(done){
       khaos('update non-existant', function(err, stdout, stderr){
         assert(err);
@@ -86,7 +77,7 @@ describe('CLI', function(){
     it('should update an existing template');
   });
 
-  describe('create', function(){
+  describe('create <template> <project>', function(){
     it('should generate a new template');
   });
 });

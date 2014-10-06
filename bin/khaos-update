@@ -3,16 +3,18 @@
 var exec = require('child_process').exec;
 var exists = require('fs').existsSync;
 var format = require('util').format;
-var join = require('path').join;
-var program = require('commander');
 var logger = require('../lib/logger');
+var program = require('commander');
+var readdir = require('fs').readdirSync;
+var resolve = require('path').resolve;
+var stat = require('fs').statSync;
 
 /**
  * Usage.
  */
 
 program
-  .option('-d, --directory <dir>', 'the directory to look for templates in', join(process.env.HOME, '.khaos'))
+  .option('-d, --directory <dir>', 'the directory to look for templates in', resolve(process.env.HOME, '.khaos'))
   .usage('<template>');
 
 /**
@@ -28,11 +30,10 @@ program.on('--help', function(){
 });
 
 /**
- * Help.
+ * Parse.
  */
 
 program.parse(process.argv);
-if (program.args.length < 1) return program.help();
 
 /**
  * Padding.
@@ -48,16 +49,53 @@ process.on('exit', function(){
  */
 
 var template = program.args[0];
-var dir = program.directory;
-var path = join(dir, template);
-if (!exists(path)) logger.fatal('Couldn\'t find a local template named "%s".', template);
+var dir = resolve(program.directory);
 
 /**
- * Git pull inside the local template's directory.
+ * Update one.
  */
 
-var cmd = format('cd %s && git pull', path);
-exec(cmd, function(err, stdout, stderr){
-  if (err) logger.fatal(err);
-  logger.success('Updated the local "%s" template.', template);
-});
+if (template) {
+  update(template);
+}
+
+/**
+ * Update all.
+ */
+
+else {
+  readdir(dir)
+    .filter(directory)
+    .forEach(update);
+}
+
+/**
+ * Update a local template by `name`.
+ *
+ * @param {String} name
+ */
+
+function update(name){
+  var path = resolve(dir, name);
+  var git = resolve(path, '.git');
+  if (!exists(path)) logger.fatal('Couldn\'t find a local template named "%s".', name);
+  if (!exists(git)) return;
+
+  var cmd = format('cd %s && git pull', path);
+  exec(cmd, function(err, stdout, stderr){
+    if (err) logger.fatal(err);
+    logger.success('Updated the local "%s" template.', name);
+  });
+}
+
+/**
+ * Check whether a `file` is a directory.
+ *
+ * @param {String} file
+ * @return {Boolean}
+ */
+
+function directory(file){
+  var path = resolve(dir, template);
+  return stat(path).isDirectory();
+}
