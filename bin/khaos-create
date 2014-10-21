@@ -132,7 +132,7 @@ function generate(src, dest, fn){
 
 function options(dir){
   var file = metadatas
-    .map(function(file){ return join(dir, file); });
+    .map(function(file){ return join(dir, file); })
     .filter(exists)
     [0];
 
