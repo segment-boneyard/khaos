@@ -1,4 +1,8 @@
 
+0.6.1 - October 21, 2014
+------------------------
+* fix bug in `create` cli
+
 0.6.0 - October 5, 2014
 -----------------------
 * add ability to read from yaml metadata
