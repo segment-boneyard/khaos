@@ -139,7 +139,7 @@ function options(dir){
   if (!file) return {};
 
   try {
-    return metadata(file);
+    return metadata.sync(file);
   } catch (e) {
     logger.fatal('Invalid metadata in ' + file);
   }
