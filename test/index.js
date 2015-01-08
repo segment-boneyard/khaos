@@ -24,58 +24,82 @@ describe('Khaos', function(){
 
   describe('#run', function(){
     it('should error out', function(done){
-      run('error', [''], function(err){
+      run('error', {}, [], function(err){
         assert(err);
         done();
       });
     });
 
     it('should fill in files', function(done){
-      run('basic', ['basic'], done);
+      var opts = { prompt: ['name'] };
+      var answers = ['basic'];
+      run('basic', opts, answers, done);
     });
 
     it('should fill in multiple variables', function(done){
-      run('multiple', ['title', 'description'], done);
+      var opts = { prompt: ['title', 'description'] };
+      var answers = ['the title', 'the description'];
+      run('multiple', opts, answers, done);
     });
 
     it('should fill in nested files', function(done){
-      run('nested', ['nested'], done);
+      var opts = { prompt: ['name'] };
+      var answers = ['nested'];
+      run('nested', opts, answers, done);
     });
 
     it('should fill in file names', function(done){
-      run('file-names', ['file-names'], done);
+      var opts = { prompt: ['name'] };
+      var answers = ['file-names'];
+      run('file-names', opts, answers, done);
     });
 
     it('should fill in folder names', function(done){
-      run('folder-names', ['folder-names'], done);
+      var opts = { prompt: ['name'] };
+      var answers = ['folder-names'];
+      run('folder-names', opts, answers, done);
     });
 
     it('should handle conditionals', function(done){
-      run('conditionals', ['title', 'n', 'description'], done);
+      var opts = { prompt: ['title', 'show', 'description'] };
+      var answers = ['title', 'n', 'description'];
+      run('conditionals', opts, answers, done);
     });
 
     it('should handle conditional files', function(done){
-      run('conditional-files', ['y'], done);
+      var opts = { prompt: ['show'] };
+      var answers = ['y'];
+      run('conditional-files', opts, answers, done);
     });
 
     it('should handle conditional folders', function(done){
-      run('conditional-folders', ['y'], done);
+      var opts = { prompt: ['show'] };
+      var answers = ['y'];
+      run('conditional-folders', opts, answers, done);
     });
 
     it('should register case helpers', function(done){
-      run('case', ['case'], done);
+      var opts = { prompt: ['name'] };
+      var answers = ['case'];
+      run('case', opts, answers, done);
     });
 
     it('should register a default helper', function(done){
-      run('default', [''], done);
+      var opts = {};
+      var answers = [''];
+      run('default', opts, answers, done);
     });
 
     it('should register a date helper', function(done){
-      run('date', [], done);
+      var opts = {};
+      var answers = [];
+      run('date', opts, answers, done);
     });
 
     it('should handle single-file templates', function(done){
-      run('file', ['file'], done);
+      var opts = { prompt: ['name'] };
+      var answers = ['file'];
+      run('file', opts, answers, done);
     });
   });
 });
@@ -88,8 +112,8 @@ describe('Khaos', function(){
  * @param {Function} done
  */
 
-function run(fixture, answers, done){
-  Khaos('test/fixtures/' + fixture + '/in', 'test/tmp')
+function run(fixture, opts, answers, done){
+  new Khaos('test/fixtures/' + fixture + '/in', 'test/tmp', opts)
     .run(function(err){
       if (err) return done(err);
       equal('test/tmp', 'test/fixtures/' + fixture + '/out');
