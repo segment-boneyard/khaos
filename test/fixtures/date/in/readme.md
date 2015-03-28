@@ -1,1 +1,1 @@
-# {{date date "YYYY"}}
+# {{date "2014-01-01" "YYYY"}}
