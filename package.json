@@ -30,6 +30,7 @@
     "moment": "^2.5.1",
     "read-metadata": "^1.0.0",
     "rimraf": "^2.2.6",
+    "sort-object": "^1.0.0",
     "uid": "~0.0.2"
   },
   "devDependencies": {
