@@ -9,10 +9,11 @@ node_modules: package.json
 
 # Run the tests.
 test: node_modules
-	@node_modules/.bin/mocha test/index test/cli \
-		--reporter spec \
-		--timeout 10000 \
-		--bail
+	@node_modules/.bin/mocha \
+		test/index \
+			--reporter spec \
+			--timeout 10000 \
+			--bail
 
 # Phony targets.
 .PHONY: clean

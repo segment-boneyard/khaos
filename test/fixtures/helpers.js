@@ -1,0 +1,6 @@
+
+/**
+ * Helper.
+ */
+
+exports.helper = true;
