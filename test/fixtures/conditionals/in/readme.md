@@ -1,3 +1,0 @@
-# {{title}}
-
-{{#show}}{{description}}{{/show}}

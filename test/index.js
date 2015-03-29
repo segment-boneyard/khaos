@@ -315,10 +315,19 @@ describe('Khaos', function(){
       }
     });
 
-    it('should prompt for placeholders in files');
-    it('should prompt for placeholders in file names');
-    it('should obey a supplied schema');
-    it('should not prompt for automatically added values');
+    it('should prompt for strings', function*(){
+      var k = Khaos('template');
+      answer(['string']);
+      var answers = yield k.prompt({ string: { type: 'string' } });
+      assert.deepEqual(answers, { string: 'string' });
+    });
+
+    it('should prompt for booleans', function*(){
+      var k = Khaos('template');
+      answer(['y']);
+      var answers = yield k.prompt({ boolean: { type: 'boolean' } });
+      assert.deepEqual(answers, { boolean: true });
+    });
   });
 
   describe('#write', function(){
@@ -375,14 +384,14 @@ describe('Khaos', function(){
     it('should template placeholders in files', function*(){
       var k = fixture('write-template');
       var files = yield k.read();
-      yield k.write('test/tmp', files, { name: 'string' });
+      yield k.write('test/tmp', files, { string: 'string', boolean: false });
       verify('write-template');
     });
 
     it('should template placeholders in filenames', function*(){
       var k = fixture('write-filename');
       var files = yield k.read();
-      yield k.write('test/tmp', files, { name: 'string' });
+      yield k.write('test/tmp', files, { string: 'string', boolean: false });
       verify('write-filename');
     });
 
@@ -406,6 +415,13 @@ describe('Khaos', function(){
       var files = yield k.read();
       yield k.write('test/tmp', files);
       verify('write-basename');
+    });
+
+    it('should add built-in helpers', function*(){
+      var k = fixture('write-helpers');
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { string: 'camelCase' });
+      verify('write-helpers');
     });
 
     it('should run a before plugin', function*(){
@@ -435,84 +451,31 @@ describe('Khaos', function(){
     });
   });
 
-  describe.skip('#run', function(){
-    it('should error out', function(done){
-      run('error', [''], function(err){
-        assert(err);
-        done();
-      });
+  describe('#generate', function(){
+    it('should generate and prompt for answers', function*(){
+      var k = fixture('generate');
+      answer(['string', 'y']);
+      yield k.generate('test/tmp');
+      verify('generate');
     });
 
-    it('should fill in files', function(done){
-      run('basic', ['basic'], done);
-    });
-
-    it('should fill in multiple variables', function(done){
-      run('multiple', ['title', 'description'], done);
-    });
-
-    it('should fill in nested files', function(done){
-      run('nested', ['nested'], done);
-    });
-
-    it('should fill in file names', function(done){
-      run('file-names', ['file-names'], done);
-    });
-
-    it('should fill in folder names', function(done){
-      run('folder-names', ['folder-names'], done);
-    });
-
-    it('should handle conditionals', function(done){
-      run('conditionals', ['title', 'n', 'description'], done);
-    });
-
-    it('should handle conditional files', function(done){
-      run('conditional-files', ['y'], done);
-    });
-
-    it('should handle conditional folders', function(done){
-      run('conditional-folders', ['y'], done);
-    });
-
-    it('should register case helpers', function(done){
-      run('case', ['case'], done);
-    });
-
-    it('should register a default helper', function(done){
-      run('default', [''], done);
-    });
-
-    it('should register a date helper', function(done){
-      run('date', [], done);
-    });
-
-    it('should handle single-file templates', function(done){
-      run('file', ['file'], done);
+    it('should generate with given answers', function*(){
+      var k = fixture('generate');
+      yield k.generate('test/tmp', { string: 'string', boolean: true });
+      verify('generate');
     });
   });
 });
 
 /**
- * Test convenience.
+ * Write a series of `answers` to stdin.
  *
- * @param {String} fixture
  * @param {Array} answers
- * @param {Function} done
  */
 
-function run(fixture, answers, done){
-  Khaos()
-    .template('test/fixtures/' + fixture + '/in')
-    .destination('test/tmp')
-    .run(function(err){
-      if (err) return done(err);
-      equal('test/tmp', 'test/fixtures/' + fixture + '/out');
-      done();
-    });
-
-  setTimeout(function(){
-    answers.forEach(answer);
+function answer(answers){
+  setTimeout(function(answer){
+    answers.forEach(write);
   }, 20);
 }
 
@@ -520,10 +483,9 @@ function run(fixture, answers, done){
  * Write an answer `str` to stdin.
  *
  * @param {String} str
- * @param {Function} fn
  */
 
-function answer(str){
+function write(str){
   str.split('').forEach(press);
   press('', { name: 'enter' });
 }
