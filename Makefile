@@ -4,6 +4,7 @@ mocha = ./node_modules/.bin/mocha \
 	--require gnode \
 	--require co-mocha \
 	--reporter spec \
+	--timeout 5000 \
 	--slow 500 \
 	--bail
 

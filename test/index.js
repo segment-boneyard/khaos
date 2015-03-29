@@ -128,13 +128,7 @@ describe('Khaos', function(){
       }
     });
 
-    it('should read a helpers file path string', function(){
-      var k = Khaos('template');
-      k.helpers(resolve(__dirname, 'fixtures/helpers.js'));
-      assert.equal(k.helpers().helper, true);
-    });
-
-    it('should error on non-object and non-string', function(){
+    it('should error on non-object', function(){
       var k = Khaos('template');
       assert.throws(function(){
         k.helpers(0);

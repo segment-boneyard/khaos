@@ -123,7 +123,9 @@ function generate(src, dest, fn){
 
   if (opts.schema) khaos.schema(opts.schema);
   if (opts.order) khaos.order(opts.order);
-  if (opts.helpers) khaos.helpers(opts.helpers);
+
+  var main = join(src, 'index.js');
+  if (exists(main)) require(main)(khaos);
 
   khaos.generate(dest, fn);
 }
