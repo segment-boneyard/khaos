@@ -10,7 +10,7 @@ var rm = require('rimraf').sync;
  * Tests.
  */
 
-describe('CLI', function(){
+describe.skip('CLI', function(){
   beforeEach(function(){
     rm('test/tmp');
   });

@@ -7,117 +7,71 @@ var resolve = require('path').resolve;
 var rm = require('rimraf').sync;
 
 /**
- * Cache.
- */
-
-var k;
-
-/**
  * Tests.
  */
 
 describe('Khaos', function(){
   beforeEach(function(){
-    k = Khaos('src', 'dest');
     rm('test/tmp');
   });
 
   it('should not require the new keyword', function(){
+    var k = Khaos('template');
     assert(k instanceof Khaos);
   });
 
-  it('should require a source directory', function(){
+  it('should throw without a template path', function(){
     assert.throws(function(){
       Khaos();
-    }, /You must provide a source template path\./);
-  });
-
-  it('should require a destination directory', function(){
-    assert.throws(function(){
-      Khaos('src');
-    }, /You must provide a destination path\./);
-  });
-
-  it('should setup hooks', function(){
-    assert.deepEqual(k.hooks, {
-      read: [],
-      prompt: [],
-      write: []
     });
   });
 
-  describe('#source', function(){
-    it('should get a source directory', function(){
-      assert.equal(k.source(), 'src');
-    });
-
-    it('should set a source directory', function(){
-      k.source('dir');
-      assert.equal(k.source(), 'dir');
-    });
-
-    it('should error on non-string', function(){
-      assert.throws(function(){
-        k.source(0);
-      });
-    });
-  });
-
-  describe('#destination', function(){
-    it('should get a destination directory', function(){
-      assert.equal(k.destination(), 'dest');
-    });
-
-    it('should set a destination directory', function(){
-      k.destination('dir');
-      assert.equal(k.destination(), 'dir');
-    });
-
-    it('should error on non-string', function(){
-      assert.throws(function(){
-        k.destination(0);
-      });
-    });
-  });
-
-  describe('#prompt', function(){
+  describe('#options', function(){
     it('should default to an empty object', function(){
-      assert.deepEqual(k.prompt(), {});
+      var k = Khaos('template');
+      assert.deepEqual(k.options(), {});
     });
 
-    it('should set a prompt options object', function(){
-      k.prompt({ option: true });
-      assert.deepEqual(k._prompt, { option: true });
+    it('should set a options options object', function(){
+      var k = Khaos('template');
+      k.options({ option: true });
+      assert.deepEqual(k._options, { option: true });
     });
 
-    it('should get a prompt options object', function(){
-      k._prompt = { option: true };
-      assert.deepEqual(k.prompt(), { option: true });
+    it('should get a options options object', function(){
+      var k = Khaos('template');
+      k._options = { option: true };
+      assert.deepEqual(k.options(), { option: true });
     });
 
     it('should error on non-object', function(){
+      var k = Khaos('template');
       assert.throws(function(){
-        k.prompt(0);
+        k.options(0);
       });
     });
   });
 
   describe('#schema', function(){
     it('should default to an empty object', function(){
+      var k = Khaos('template');
       assert.deepEqual(k.schema(), {});
     });
 
     it('should set a schema object', function(){
+      var k = Khaos('template');
       k.schema({ key: {} });
       assert.deepEqual(k._schema, { key: {} });
     });
 
     it('should get a schema object', function(){
+      var k = Khaos('template');
       k._schema = { key: {} };
       assert.deepEqual(k.schema(), { key: {} });
     });
 
     it('should error on non-object', function(){
+      var k = Khaos('template');
       assert.throws(function(){
         k.schema(0);
       });
@@ -126,20 +80,24 @@ describe('Khaos', function(){
 
   describe('#order', function(){
     it('should default to an empty array', function(){
+      var k = Khaos('template');
       assert.deepEqual(k.order(), []);
     });
 
     it('should set an order array', function(){
+      var k = Khaos('template');
       k.order(['one', 'two', 'three']);
       assert.deepEqual(k._order, ['one', 'two', 'three']);
     });
 
     it('should get an order array', function(){
+      var k = Khaos('template');
       k._order = ['one', 'two', 'three'];
       assert.deepEqual(k.order(), ['one', 'two', 'three']);
     });
 
     it('should error on non-array', function(){
+      var k = Khaos('template');
       assert.throws(function(){
         k.order(0);
       });
@@ -147,49 +105,202 @@ describe('Khaos', function(){
   });
 
   describe('#helpers', function(){
-    it('should default to an empty object', function(){
-      assert.deepEqual(k.helpers(), {});
-    });
-
-    it('should set a helpers object', function(){
-      k.helpers({ helper: true });
-      assert.deepEqual(k._helpers, { helper: true });
-    });
-
-    it('should read a helpers file path string', function(){
-      k.helpers(resolve(__dirname, 'fixtures/helpers.js'));
-      assert.deepEqual(k._helpers, { helper: true });
-    });
-
     it('should get a helpers object', function(){
+      var k = Khaos('template');
       k._helpers = { helper: true };
       assert.deepEqual(k.helpers(), { helper: true });
     });
 
+    it('should mixin a helpers object', function(){
+      var k = Khaos('template');
+      k.helpers({ helper: true });
+      assert.equal(k.helpers().helper, true);
+    });
+
+    it('should default to built-in helpers', function(){
+      var k = Khaos('template');
+      var helpers = require('../lib/helpers');
+      var h = k.helpers();
+
+      for (var key in helpers) {
+        assert.equal(h[key], helpers[key]);
+      }
+    });
+
+    it('should read a helpers file path string', function(){
+      var k = Khaos('template');
+      k.helpers(resolve(__dirname, 'fixtures/helpers.js'));
+      assert.equal(k.helpers().helper, true);
+    });
+
     it('should error on non-object and non-string', function(){
+      var k = Khaos('template');
       assert.throws(function(){
         k.helpers(0);
       });
     });
   });
 
-  describe('#use', function(){
+  describe('#before', function(){
     var noop = function(){};
 
-    it('should add a hook', function(){
-      k.use('read', noop);
-      assert.equal(k.hooks.read.length, 1);
-      assert.equal(k.hooks.read[0], noop);
+    it('should default to an empty array', function(){
+      var k = Khaos('template');
+      assert.deepEqual(k.before(), []);
     });
 
-    it('should error on an unknown hook', function(){
+    it('should get before plugins', function(){
+      var k = Khaos('template');
+      k._before = [noop];
+      assert.equal(k.before()[0], noop);
+    });
+
+    it('should add a before plugin', function(){
+      var k = Khaos('template');
+      k.before(noop);
+      assert.equal(k._before[0], noop);
+    });
+
+    it('should error on a non-function', function(){
+      var k = Khaos('template');
       assert.throws(function(){
-        k.use('unknown', noop);
+        k.before(0);
       });
     });
   });
 
-  describe('#run', function(){
+  describe('#after', function(){
+    var noop = function(){};
+
+    it('should default to an empty array', function(){
+      var k = Khaos('template');
+      assert.deepEqual(k.after(), []);
+    });
+
+    it('should get after plugins', function(){
+      var k = Khaos('template');
+      k._after = [noop];
+      assert.equal(k.after()[0], noop);
+    });
+
+    it('should add a after plugin', function(){
+      var k = Khaos('template');
+      k.after(noop);
+      assert.equal(k._after[0], noop);
+    });
+
+    it('should error on a non-function', function(){
+      var k = Khaos('template');
+      assert.throws(function(){
+        k.after(0);
+      });
+    });
+  });
+
+  describe('#read', function(){
+    it('should read a template directory', function*(){
+      var k = Khaos('test/fixtures/read-template/template');
+      var files = yield k.read();
+      assert.equal(files.file.contents.toString(), 'body');
+    });
+
+    it('should handle single-file templates', function*(){
+      var k = Khaos('test/fixtures/read-file/template');
+      var files = yield k.read();
+      assert.equal(files['template'].contents.toString(), 'body');
+    });
+
+    it('should close open handlebars interpolations in file names', function*(){
+      var k = Khaos('test/fixtures/read-close/template');
+      var files = yield k.read();
+      assert.equal(files['{{#var}}file{{/var}}'].contents.toString(), 'body');
+    });
+  });
+
+  describe('#parse', function(){
+    it('should parse string placeholders', function*(){
+      var k = fixture('parse-file-string');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { string: { type: 'string' }});
+    });
+
+    it('should parse boolean placeholders in files', function*(){
+      var k = fixture('parse-file-boolean');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { boolean: { type: 'boolean' }});
+    });
+
+    it('should parse string placeholders in file names', function*(){
+      var k = fixture('parse-filename-string');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { string: { type: 'string' }});
+    });
+
+    it('should parse boolean placeholders in file names', function*(){
+      var k = fixture('parse-filename-boolean');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { boolean: { type: 'boolean' }});
+    });
+
+    it('should omit automatically added keys', function*(){
+      var k = fixture('parse-automatic');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, {});
+    });
+
+    it('should deeply mixin a provided schema', function*(){
+      var k = fixture('parse-schema');
+      k.schema({ string: { label: 'String' }});
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { string: { type: 'string', label: 'String' }});
+    });
+
+    it('should respect a sort order', function*(){
+      var k = fixture('parse-order');
+      k.order(['two', 'three']);
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      var keys = Object.keys(schema);
+      assert.equal(keys[0], 'two');
+      assert.equal(keys[1], 'three');
+      assert.equal(keys[2], 'one');
+    });
+  });
+
+  describe('#prompt', function(){
+    it('should prompt for placeholders in files');
+    it('should prompt for placeholders in file names');
+    it('should obey a supplied schema');
+    it('should not prompt for automatically added values');
+  });
+
+  describe('#write', function(){
+    it('should write to a destination directory', function*(){
+      var k = Khaos('test/');
+    });
+
+    it('should handle single-file templates');
+    it('should run a prompt hook');
+
+    it.skip('should run an after hook', function*(done){
+      var k = Khaos('test/fixtures/read-hook/template');
+      k.use('read', hook);
+      var files = yield k.read();
+
+      function hook(files) {
+        assert(files.file.contents.toString(), 'body');
+        done();
+      }
+    });
+  });
+
+  describe.skip('#run', function(){
     it('should error out', function(done){
       run('error', [''], function(err){
         assert(err);
@@ -256,7 +367,9 @@ describe('Khaos', function(){
  */
 
 function run(fixture, answers, done){
-  Khaos('test/fixtures/' + fixture + '/in', 'test/tmp')
+  Khaos()
+    .template('test/fixtures/' + fixture + '/in')
+    .destination('test/tmp')
     .run(function(err){
       if (err) return done(err);
       equal('test/tmp', 'test/fixtures/' + fixture + '/out');
@@ -289,4 +402,17 @@ function answer(str){
 
 function press(c, key){
   process.stdin.emit('keypress', c, key);
+}
+
+
+/**
+ * Create a Khaos instance for a given fixture by `name`.
+ *
+ * @param {String} name
+ * @return {Khaos}
+ */
+
+function fixture(name) {
+  var path = resolve(__dirname, 'fixtures', name, 'template');
+  return Khaos(path);
 }
