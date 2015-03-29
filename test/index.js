@@ -5,6 +5,7 @@ var exists = require('fs').existsSync;
 var Khaos = require('..');
 var resolve = require('path').resolve;
 var rm = require('rimraf').sync;
+var fs = require('co-fs-extra');
 
 /**
  * Tests.
@@ -218,6 +219,26 @@ describe('Khaos', function(){
   });
 
   describe('#parse', function(){
+    it('should error without a files object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.parse();
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a files object.');
+      }
+    });
+
+    it('should error with an invalid files object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.parse(0);
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a files object.');
+      }
+    });
+
     it('should parse string placeholders', function*(){
       var k = fixture('parse-file-string');
       var files = yield k.read();
@@ -274,6 +295,26 @@ describe('Khaos', function(){
   });
 
   describe('#prompt', function(){
+    it('should error without a schema object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.prompt();
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a schema object.');
+      }
+    });
+
+    it('should error with an invalid schema object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.prompt(0);
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a schema object.');
+      }
+    });
+
     it('should prompt for placeholders in files');
     it('should prompt for placeholders in file names');
     it('should obey a supplied schema');
@@ -281,21 +322,115 @@ describe('Khaos', function(){
   });
 
   describe('#write', function(){
-    it('should write to a destination directory', function*(){
-      var k = Khaos('test/');
+    it('should error without a destination', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.write();
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a destination path.');
+      }
     });
 
-    it('should handle single-file templates');
-    it('should run a prompt hook');
+    it('should error with an invalid destination', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.write(0);
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a destination path.');
+      }
+    });
 
-    it.skip('should run an after hook', function*(done){
-      var k = Khaos('test/fixtures/read-hook/template');
-      k.use('read', hook);
+    it('should error without a files object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.write('dest');
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a files object.');
+      }
+    });
+
+    it('should error with an invalid files object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.write('dest', 0);
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass a files object.');
+      }
+    });
+
+    it('should error with an invalid answers object', function*(){
+      var k = Khaos('template');
+      try {
+        yield k.write('dest', {}, true);
+        assert(false);
+      } catch (e) {
+        assert.equal(e.message, 'You must pass an answers object.');
+      }
+    });
+
+    it('should template placeholders in files', function*(){
+      var k = fixture('write-template');
       var files = yield k.read();
+      yield k.write('test/tmp', files, { name: 'string' });
+      verify('write-template');
+    });
 
-      function hook(files) {
-        assert(files.file.contents.toString(), 'body');
-        done();
+    it('should template placeholders in filenames', function*(){
+      var k = fixture('write-filename');
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { name: 'string' });
+      verify('write-filename');
+    });
+
+    it('should handle single-file templates', function*(){
+      var k = fixture('write-file');
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { name: 'string' });
+      var body = yield fs.readFile('test/tmp', 'utf8');
+      assert.equal(body, 'string');
+    });
+
+    it('should add a `date` answer automatically', function*(){
+      var k = fixture('write-date');
+      var files = yield k.read();
+      yield k.write('test/tmp', files);
+      verify('write-date');
+    });
+
+    it('should add a `basename` answer automatically', function*(){
+      var k = fixture('write-basename');
+      var files = yield k.read();
+      yield k.write('test/tmp', files);
+      verify('write-basename');
+    });
+
+    it('should run a before plugin', function*(){
+      var k = fixture('write-before');
+      k.before(plugin);
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { name: 'string' });
+      verify('write-before');
+
+      function plugin(files, m) {
+        var data = m.metadata();
+        data.name = 'different';
+        m.metadata(data);
+      }
+    });
+
+    it('should run an after plugin', function*(){
+      var k = fixture('write-after');
+      k.after(plugin);
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { name: 'string' });
+      verify('write-after');
+
+      function plugin(files, m) {
+        rm('test/tmp/file');
       }
     });
   });
@@ -415,4 +550,15 @@ function press(c, key){
 function fixture(name) {
   var path = resolve(__dirname, 'fixtures', name, 'template');
   return Khaos(path);
+}
+
+/**
+ * Verify that an expected result happed for a fixture by `name`.
+ *
+ * @param {String} name
+ */
+
+function verify(name) {
+  var expected = resolve(__dirname, 'fixtures', name, 'expected');
+  equal('test/tmp', expected);
 }
