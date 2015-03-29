@@ -58,7 +58,6 @@ mkdir(dir);
 var dest = join(dir, name);
 if (exists(dest)) logger.fatal('A template named "%s" already exists. Try `khaos update %s`, or choose a new alias.', name, name);
 
-
 /**
  * Clone the GitHub repository to the templates directory.
  */

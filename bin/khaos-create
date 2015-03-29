@@ -119,8 +119,13 @@ else {
 function generate(src, dest, fn){
   var opts = options(src);
   var template = join(src, opts.template || 'template');
-  var khaos = new Khaos(template, dest, opts);
-  khaos.run(fn);
+  var khaos = new Khaos(template);
+
+  if (opts.schema) khaos.schema(opts.schema);
+  if (opts.order) khaos.order(opts.order);
+  if (opts.helpers) khaos.helpers(opts.helpers);
+
+  khaos.generate(dest, fn);
 }
 
 /**
