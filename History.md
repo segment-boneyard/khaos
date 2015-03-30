@@ -1,4 +1,8 @@
 
+0.9.0 - March 29, 2015
+----------------------
+* change `#options` to `#format`
+
 0.8.0 - March 29, 2015
 ----------------------
 * big rewrite to break apart the core logic
