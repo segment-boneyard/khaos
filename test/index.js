@@ -405,6 +405,13 @@ describe('Khaos', function(){
       assert.equal(body, 'string');
     });
 
+    it('should not fail with binary files', function*(){
+      var k = fixture('write-binary');
+      var files = yield k.read();
+      yield k.write('test/tmp', files, {});
+      verify('write-binary');
+    });
+
     it('should add a `date` answer automatically', function*(){
       var k = fixture('write-date');
       var files = yield k.read();

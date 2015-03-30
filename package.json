@@ -26,7 +26,7 @@
     "metalsmith": "^1.0.0",
     "metalsmith-build-date": "^0.1.0",
     "metalsmith-prompt": "^0.0.8",
-    "metalsmith-templates": "^0.6.1",
+    "metalsmith-templates": "^0.7.0",
     "mkdirp": "~0.4.0",
     "moment": "^2.5.1",
     "prompt-for": "^1.0.0",
