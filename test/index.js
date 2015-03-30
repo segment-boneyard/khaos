@@ -35,28 +35,28 @@ describe('Khaos', function(){
     });
   });
 
-  describe('#options', function(){
+  describe('#format', function(){
     it('should default to an empty object', function(){
       var k = Khaos('template');
-      assert.deepEqual(k.options(), {});
+      assert.deepEqual(k.format(), {});
     });
 
-    it('should set a options options object', function(){
+    it('should set a prompt format options object', function(){
       var k = Khaos('template');
-      k.options({ option: true });
-      assert.deepEqual(k._options, { option: true });
+      k.format({ option: true });
+      assert.deepEqual(k._format, { option: true });
     });
 
-    it('should get a options options object', function(){
+    it('should get a prompt format options object', function(){
       var k = Khaos('template');
-      k._options = { option: true };
-      assert.deepEqual(k.options(), { option: true });
+      k._format = { option: true };
+      assert.deepEqual(k.format(), { option: true });
     });
 
     it('should error on non-object', function(){
       var k = Khaos('template');
       assert.throws(function(){
-        k.options(0);
+        k.format(0);
       });
     });
   });
