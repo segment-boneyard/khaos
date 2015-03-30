@@ -22,6 +22,7 @@
     "handlebars": "^2.0.0",
     "is": "^3.0.1",
     "is-utf8": "^0.2.0",
+    "lodash": "^3.6.0",
     "metalsmith": "^1.0.0",
     "metalsmith-build-date": "^0.1.0",
     "metalsmith-prompt": "^0.0.8",

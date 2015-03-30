@@ -1,11 +1,19 @@
 
 var assert = require('assert');
-var equal = require('assert-dir-equal');
 var exists = require('fs').existsSync;
 var Khaos = require('..');
 var resolve = require('path').resolve;
 var rm = require('rimraf').sync;
 var fs = require('co-fs-extra');
+var utils = require('./utils');
+
+/**
+ * Convenience.
+ */
+
+var verify = utils.verify;
+var fixture = utils.fixture;
+var answer = utils.answer;
 
 /**
  * Tests.
@@ -460,61 +468,3 @@ describe('Khaos', function(){
     });
   });
 });
-
-/**
- * Write a series of `answers` to stdin.
- *
- * @param {Array} answers
- */
-
-function answer(answers){
-  setTimeout(function(answer){
-    answers.forEach(write);
-  }, 20);
-}
-
-/**
- * Write an answer `str` to stdin.
- *
- * @param {String} str
- */
-
-function write(str){
-  str.split('').forEach(press);
-  press('', { name: 'enter' });
-}
-
-/**
- * Trigger a keypress on stdin with `c` and `key`.
- *
- * @param {String} c
- * @param {Object} key
- */
-
-function press(c, key){
-  process.stdin.emit('keypress', c, key);
-}
-
-
-/**
- * Create a Khaos instance for a given fixture by `name`.
- *
- * @param {String} name
- * @return {Khaos}
- */
-
-function fixture(name) {
-  var path = resolve(__dirname, 'fixtures', name, 'template');
-  return Khaos(path);
-}
-
-/**
- * Verify that an expected result happed for a fixture by `name`.
- *
- * @param {String} name
- */
-
-function verify(name) {
-  var expected = resolve(__dirname, 'fixtures', name, 'expected');
-  equal('test/tmp', expected);
-}

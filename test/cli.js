@@ -1,16 +1,26 @@
 
 var assert = require('assert');
-var equal = require('assert-dir-equal');
-var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var exists = require('fs').existsSync;
 var once = require('once');
 var rm = require('rimraf').sync;
+var utils = require('./utils');
+var resolve = require('path').resolve;
+
+/**
+ * Convenience.
+ */
+
+var verify = utils.verify;
+var fixture = utils.fixture;
+var answer = utils.answer;
+var command = utils.command;
 
 /**
  * Tests.
  */
 
-describe('CLI', function(){
+describe.skip('CLI', function(){
   beforeEach(function(){
     rm('test/tmp');
   });
@@ -78,9 +88,51 @@ describe('CLI', function(){
   });
 
   describe('create <template> <project>', function(){
-    it('should generate a new template');
+    it('should generate a new template', function*(){
+      yield create('cli-create-template', ['string', 'y']);
+      verify('cli-create-template');
+    });
   });
 });
+
+/**
+ *
+ */
+
+function create(fixture, answers) {
+  return function(done){
+    var stdout = '';
+    var stderr = '';
+    var args = ['create', fixture, 'test/tmp', '--directory', 'test/fixtures'];
+    var opts = { cwd: process.cwd, stdio: 'pipe' };
+    var child = spawn('bin/khaos', args, opts);
+
+    process.on('exit', function(){
+      child.kill();
+    });
+
+    setTimeout(function(){
+      answer(answers, child.stdin);
+    }, 1000);
+
+    child.stdout.on('data', function(data){
+      stdout += data.toString();
+    });
+
+
+    child.stderr.on('data', function(data){
+      stderr += data.toString();
+    });
+
+    child.on('close', function(code){
+      if (code === 1) done(new Error(stderr));
+      console.log(stdout);
+      done();
+    });
+  };
+}
+
+
 
 /**
  * Execute a khaos `cmd`.
