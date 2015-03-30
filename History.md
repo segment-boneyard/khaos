@@ -1,4 +1,8 @@
 
+0.9.1 - March 29, 2015
+----------------------
+* bump `metalsmith-templates` to ignore binary files
+
 0.9.0 - March 29, 2015
 ----------------------
 * change `#options` to `#format`
