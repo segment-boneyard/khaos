@@ -1,12 +1,14 @@
 
-0.7.1 / 2014-12-08
-==================
+0.8.0 - March 29, 2015
+----------------------
+* big rewrite to break apart the core logic
 
-  * khaos-create: fix metadata read
+0.7.1 - December 8, 2014
+------------------------
+* khaos-create: fix metadata read
 
-0.7.0 / 2014-11-06
-==================
-
+0.7.0 - November 11, 06
+-----------------------
 * add hook api
 
 0.6.1 - October 21, 2014
