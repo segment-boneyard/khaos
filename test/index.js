@@ -294,6 +294,20 @@ describe('Khaos', function(){
       assert.equal(keys[1], 'three');
       assert.equal(keys[2], 'one');
     });
+
+    it('should not parse handlebars file bodies', function*(){
+      var k = fixture('parse-hbs-body');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { string: { type: 'string' }});
+    });
+
+    it('should parse handlebars file names', function*(){
+      var k = fixture('parse-hbs-name');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, { string: { type: 'string' }, another: { type: 'string' }});
+    });
   });
 
   describe('#prompt', function(){
@@ -410,6 +424,20 @@ describe('Khaos', function(){
       var files = yield k.read();
       yield k.write('test/tmp', files, {});
       verify('write-binary');
+    });
+
+    it('should not template handlebars file bodies', function*(){
+      var k = fixture('write-hbs-name');
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { string: 'string' });
+      verify('write-hbs-name');
+    });
+
+    it('should template handlebars file names', function*(){
+      var k = fixture('write-hbs-name');
+      var files = yield k.read();
+      yield k.write('test/tmp', files, { string: 'string' });
+      verify('write-hbs-name');
     });
 
     it('should add a `date` answer automatically', function*(){
