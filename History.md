@@ -1,4 +1,8 @@
 
+0.9.2 - April 1, 2015
+---------------------
+* fix `to-case` dependency
+
 0.9.1 - March 29, 2015
 ----------------------
 * bump `metalsmith-templates` to ignore binary files
