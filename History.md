@@ -1,4 +1,8 @@
 
+0.9.3 - April 1, 2015
+---------------------
+* fix parsing and writing `.hbs` files
+
 0.9.2 - April 1, 2015
 ---------------------
 * fix `to-case` dependency
