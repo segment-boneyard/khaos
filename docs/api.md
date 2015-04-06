@@ -15,6 +15,15 @@ Create a new Khaos instance, passing a path to the `template` directory (or file
 
 #### `#generate(destination, [answers])`
 
+```js
+var khaos = new Khaos('path/to/template');
+
+khaos.generate('path/to/destination', function(err){
+  if (err) throw err;
+  console.log('Generated!');
+});
+```
+
 A top-level convenience method that will `read` and `write` all in one go. If you omit `answers`, it will also `parse` and `prompt` before writing. _Can be `yield`ed._
 
 #### `#read()`
