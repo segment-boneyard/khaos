@@ -9,6 +9,7 @@ If you have your own CLI, the Javascript API makes it super trivial to implement
 
 ```js
 var khaos = new Khaos('path/to/template');
+```
 
 Create a new Khaos instance, passing a path to the `template` directory (or file).
 
