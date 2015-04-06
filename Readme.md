@@ -1,5 +1,5 @@
 
-![](https://cloudup.com/c2wfG5Tktj5)
+![](https://cldup.com/ed89zMzGj2.png)
 
 The simplest project scaffolder. [http://khaos.io](http://khaos.io)
 
