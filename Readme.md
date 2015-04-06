@@ -1,11 +1,20 @@
 
-# Khaos
+![](https://cloudup.com/c2wfG5Tktj5)
 
 The simplest project scaffolder. [http://khaos.io](http://khaos.io)
 
 ## Installation
 
     $ npm install -g khaos
+
+## Getting Started
+
+
+## Documentation
+
+- [Templates](/docs/templates.md)
+- [CLI](/docs/cli.md)
+- [Javascript API](/docs/api.md)
 
 ## Usage
 
