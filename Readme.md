@@ -1,7 +1,7 @@
 
 # Khaos
 
-A super-simple way to scaffold new projects.
+The simplest project scaffolder. [http://khaos.io](http://khaos.io)
 
 ## Installation
 
