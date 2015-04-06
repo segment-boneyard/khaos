@@ -5,7 +5,7 @@ In addition to using the simple [CLI](/docs/cli.md) to scaffhold new projects qu
 
 If you have your own CLI, the Javascript API makes it super trivial to implement your own `cli create` method for scaffolding your own projects. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
 
-### new Khaos(template)
+#### `new Khaos(template)`
 
 Create a new Khaos instance, passing a path to the `template` directory (or file).
 
