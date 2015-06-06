@@ -62,7 +62,7 @@ if (exists(dest)) logger.fatal('A template named "%s" already exists. Try `khaos
  * Clone the GitHub repository to the templates directory.
  */
 
-var cmd = format('git clone git@github.com:%s.git %s', repo, dest);
+var cmd = format('git clone https://github.com/%s.git %s', repo, dest);
 exec(cmd, function(err, stdout){
   if (err) logger.fatal(err);
   logger.log('Saved "%s" as "%s"!', repo, name);
