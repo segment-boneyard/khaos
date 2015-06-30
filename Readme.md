@@ -96,7 +96,7 @@ To give you an idea for what's possible, check out a few examples:
 
 ## Javascript API
 
-In addition to using the simple CLI to create new projects, you can use Khaos straight from node.js in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
+In addition to using the simple CLI to create new projects, you can use Khaos straight from node.js in case you want to bake it into your own, more custom, scaffolding process. Checkout the [logo creation CLI](https://github.com/logo/cli/blob/master/bin/logo-create) for an example of this in action.
 
 #### new Khaos(src, dest)
 
