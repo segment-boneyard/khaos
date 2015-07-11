@@ -3,7 +3,7 @@
 
 In addition to using the simple [CLI](/docs/cli.md) to scaffhold new projects quickly from the command line, you can also use the Khaos Javascript API for more advanced use cases.
 
-If you have your own CLI, the Javascript API makes it super trivial to implement your own `cli create` method for scaffolding your own projects. Checkout the [logo creation CLI](/logo/cli/tree/master/bin/logo-create) for an example of this in action.
+If you have your own CLI, the Javascript API makes it super trivial to implement your own `cli create` method for scaffolding your own projects. Checkout the [logo creation CLI](https://github.com/logo/cli/blob/master/bin/logo-create) for an example of this in action.
 
 #### `new Khaos(template)`
 
