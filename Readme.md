@@ -1,7 +1,9 @@
 
 ![](https://cldup.com/ed89zMzGj2.png)
 
-The simplest project scaffolder. [http://khaos.io](http://khaos.io)
+> The simplest project scaffolder. [http://khaos.io](http://khaos.io)
+
+[![Build Status](https://travis-ci.org/segmentio/metalsmith.svg)](https://travis-ci.org/segmentio/metalsmith)
 
 ## Installation
 
