@@ -3,7 +3,7 @@
 
 > The simplest project scaffolder. [http://khaos.io](http://khaos.io)
 
-[![Build Status](https://travis-ci.org/segmentio/metalsmith.svg)](https://travis-ci.org/segmentio/metalsmith)
+[![Build Status](https://travis-ci.org/segmentio/khaos.svg)](https://travis-ci.org/segmentio/khaos)
 
 ## Installation
 
