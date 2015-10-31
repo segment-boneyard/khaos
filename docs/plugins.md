@@ -1,2 +1,0 @@
-
-# Khaos: Plugins

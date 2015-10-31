@@ -9,32 +9,28 @@
 
     $ npm install -g khaos
 
-## Getting Started
-
-
 ## Documentation
 
-- [Templates](/docs/templates.md)
-- [CLI](/docs/cli.md)
-- [Javascript API](/docs/api.md)
+- [Creating Templates](/docs/templates.md)
+- [Using the JavaScript API](/docs/api.md)
 
 ## Usage
 
-The quickest way to get started using Khaos is to create a new project from a template on GitHub, for example using the [segmentio/khaos-node](https://github.com/segmentio/khaos-node) template...
+The quickest way to start using Khaos is to create a new project from a template on GitHub. For example, using the [segmentio/khaos-node](https://github.com/segmentio/khaos-node) template...
 
     $ khaos create segmentio/khaos-node my-new-project
 
-That will prompt you to fill in some placeholders...
+...that will prompt you to fill in some placeholders...
 
                 name: ware
                owner: segmentio
          description: Easily create your own middleware layer.
 
-...and voilà! Your new node.js project directory is made including a `package.json`, `Readme.md`, `Makefile` and everything.
+...and voilà! Your new node.js project directory is created including a `package.json`, `Readme.md`, `Makefile`, and everything.
 
 ## Local Usage
 
-Khaos can also use local templates at `~/.khaos`, and there's a simple command for download GitHub repositories there. Here's the same example from above, but locally...
+Khaos can also use local templates at `~/.khaos` and there's a simple command for download GitHub repositories there. Here's the same example from above, but locally...
 
     $ khaos install segmentio/khaos-node node
 
@@ -46,7 +42,7 @@ That installs Segment's node template and aliases it as `node`, so then from now
 
 ## How does it work?
 
-Khaos templates are just plain old directories where any file or filename can have **handlebars placeholders**. When you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
+Khaos templates are just plain old directories where any file or filename can have [**handlebars placeholders**](http://handlebarsjs.com/). When you create a new project, Khaos will scan the template for placeholders and prompt you to fill in a value for each one.
 
 For example, say you have a `package.json` in your template...
 
@@ -59,7 +55,7 @@ For example, say you have a `package.json` in your template...
 }
 ```
 
-Khaos sees that and knows to prompt you for a `name`, `owner` and `description` when generating the template, like so...
+Khaos sees that and knows to prompt you for a `name`, `owner`, and `description` when generating the template, like so...
 
                 name: ware
                owner: segmentio
@@ -93,7 +89,9 @@ What's cool about all this is it makes creating new templates incredibly easy. J
 To give you an idea for what's possible, check out a few examples:
 
   - [A template for node projects.](https://github.com/segmentio/khaos-node) Pretty basic.
-  - [A template for component projects.](https://github.com/segmentio/khaos-component) Featuring conditional blocks and conditional files!
+  - [A template for react.js projects.](https://github.com/lapwinglabs/khaos-react)
+  - [A template for JSTransformer.](https://github.com/jstransformers/khaos-jstransformer)
+  - [A template for building Deku components.](https://github.com/stevenmiller888/khaos-deku-component)
   - [A CLI that uses the Javascript API internally.](https://github.com/logo/cli/blob/master/bin/logo-create) Featuring custom plugins.
 
 ## Javascript API
