@@ -3,7 +3,7 @@
 
 The CLI is an easy way to scaffold projects quickly. There are only four commands.
 
-## `#create` <template> <project>
+## `#create <template> <project>`
 
 This command creates a new directory based on a provided template. The `<template>` can either be local:
 
