@@ -1,7 +1,7 @@
 
-# Khaos: Javascript API
+# JavaScript API
 
-In addition to using the simple [CLI](/docs/cli.md) to scaffhold new projects quickly from the command line, you can also use the Khaos Javascript API for more advanced use cases.
+In addition to using the simple [CLI](/docs/cli.md) to scaffhold new projects quickly from the command line, you can also use the Khaos [Javascript API](/docs/api.md) for more advanced use cases.
 
 If you have your own CLI, the Javascript API makes it super trivial to implement your own `cli create` method for scaffolding your own projects. Checkout the [logo creation CLI](https://github.com/logo/cli/blob/master/bin/logo-create) for an example of this in action.
 
@@ -126,7 +126,15 @@ khaos.format({
 }); 
 ```
 
-Pass in an `options` object to set the format for prompting. See the [Format docs](/docs/config#format.md) for more information.
+Pass in an `options` object to set the format for prompting. Options takes three properties: `color`, `separator`, and `prefix`. Since Khaos uses `prompt-for`, more information about the `options` can be found in the [source](https://github.com/segmentio/prompt-for/blob/master/lib/types.js#L115-L117).
+
+```javascript
+{
+  color: 'blue',
+  separator: ': ',
+  prefix:
+}
+```
 
 #### `#schema(schema)`
 
@@ -138,7 +146,7 @@ khaos.schema({
 });
 ```
 
-Pass in a `schema` object. See the [Schema docs](/docs/config#schema.md) for more information.
+Pass in a `schema` object. See the [Schema docs](/docs/schema.md) for more information.
 
 #### `#order(array)`
 
@@ -157,4 +165,4 @@ khaos.helpers({
 });
 ```
 
-Pass in a dictionary of Handlebars `helpers` to template with. See the [Helpers docs](/docs/config#helpers.md) for more information.
+Pass in a dictionary of Handlebars `helpers` to template with.
