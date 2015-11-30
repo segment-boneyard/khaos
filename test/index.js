@@ -255,6 +255,13 @@ describe('Khaos', function(){
       assert.deepEqual(schema, { boolean: { type: 'boolean' }});
     });
 
+    it('should parse block boolean placeholders in files', function*(){
+      var k = fixture('parse-file-block-boolean');
+      var files = yield k.read();
+      var schema = yield k.parse(files);
+      assert.deepEqual(schema, {boolean: {type: 'boolean'}});
+    });
+
     it('should parse string placeholders in file names', function*(){
       var k = fixture('parse-filename-string');
       var files = yield k.read();
@@ -457,7 +464,7 @@ describe('Khaos', function(){
     it('should add built-in helpers', function*(){
       var k = fixture('write-helpers');
       var files = yield k.read();
-      yield k.write('test/tmp', files, { string: 'camelCase' });
+      yield k.write('test/tmp', files, { string: 'camelCase', boolean: false });
       verify('write-helpers');
     });
 
@@ -480,7 +487,8 @@ describe('Khaos', function(){
       k.after(plugin);
       var files = yield k.read();
       yield k.write('test/tmp', files, { name: 'string' });
-      verify('write-after');
+      var exists = yield fs.exists('test/tmp/file');
+      assert(!exists)
 
       function plugin(files, m) {
         rm('test/tmp/file');

@@ -1,1 +1,2 @@
 {{slugcase string}}
+{{#unless boolean}}body{{/unless}}
