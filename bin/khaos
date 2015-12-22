@@ -72,5 +72,5 @@ if (!exists(bin)) logger.fatal('The "%s" command does not exist.', name);
  * Spawn a new, forwarded child process with the executable.
  */
 
-spawn(bin, args, { stdio: 'inherit' })
+spawn('node', [ bin ].concat(args), { stdio: 'inherit' })
   .on('close', process.exit.bind(process));
