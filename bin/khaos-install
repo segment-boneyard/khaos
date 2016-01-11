@@ -61,7 +61,7 @@ if (exists(dest)) logger.fatal('A template named "%s" already exists. Try `khaos
 /**
  * Clone the GitHub repository to the templates directory.
  */
-download(repo.split('/')[0], repo.split('/')[1], 'master', dest, function (err) {
+gethub(repo.split('/')[0], repo.split('/')[1], 'master', dest, function (err) {
   if (err) logger.fatal(err);
   logger.log('Saved "%s" as "%s"!', repo, name);
   logger.success('Run `khaos create %s <project>` to get started.', name);
