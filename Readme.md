@@ -93,6 +93,7 @@ To give you an idea for what's possible, check out a few examples:
   - [A template for JSTransformer.](https://github.com/jstransformers/khaos-jstransformer)
   - [A template for building Deku components.](https://github.com/stevenmiller888/khaos-deku-component)
   - [A CLI that uses the Javascript API internally.](https://github.com/logo/cli/blob/master/bin/logo-create) Featuring custom plugins.
+  - [A template for clientside projects with webpack](https://github.com/stevenmathews/khaos-webpack)
 
 ## Javascript API
 
