@@ -33,7 +33,7 @@
     "rimraf": "^2.2.6",
     "sort-object": "^3.0.0",
     "thunkify": "^2.1.2",
-    "to-case": "^1.0.0",
+    "to-case": "^2.0.0",
     "uid": "~0.0.2",
     "unyield": "0.0.1"
   },
