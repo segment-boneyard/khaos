@@ -18,7 +18,7 @@
     "extend": "^3.0.0",
     "fs-extra": "~0.24.0",
     "gnode": "^0.1.1",
-    "handlebars": "^2.0.0",
+    "handlebars": "^4.5.3",
     "is": "^3.0.1",
     "is-utf8": "^0.2.0",
     "lodash": "^3.6.0",
